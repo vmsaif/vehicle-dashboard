@@ -1,3 +1,6 @@
 # vscode
 .vscode
 *.code-workspace
+
+*.pdf
+project_dir.md
