@@ -21,7 +21,7 @@
 - NVM (Node Version Manager)
 - Node.js
 - git
--
+- tailwindcss
 #### Install nvm
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
@@ -48,5 +48,10 @@ cd ../backend
 npm install
 ```
 
+### Install tailwindcss by following the instructions [here](https://tailwindcss.com/docs/guides/vite)
 
+## Assets and Resources
+- Extracted Icons from the provided PDF.
+- Used online photo editor tool to clean up the icons - [Photopea](https://www.photopea.com/)
+- Vectorized the icons using [Vector Magic](https://vectormagic.com/)
 
