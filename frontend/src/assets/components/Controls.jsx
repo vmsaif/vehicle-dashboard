@@ -6,7 +6,7 @@
  * @version:     0.1
  * @contact:     msaifofficial@gmail.com
  *
- * @description: description here
+ * @description: Controls component for the vehicle dashboard.
  */
 
 
@@ -14,16 +14,13 @@ import React from "react";
 
 function Controls() {
   return (
-    <div className="bg-gray-800 p-4 rounded shadow">
-      <h2 className="text-lg font-bold mb-4 text-center">Motor Speed Setting</h2>
-      <div className="flex items-center justify-between">
+    <div className="bg-gray-800 rounded flex flex-col items-center justify-center p-4">
+      <h2 className="text-sm font-semibold text-center">MOTOR SPEED SETTINGS</h2>
+      <div className="flex items-center mt-4">
         <span>OFF</span>
-        <input type="range" min="0" max="4" className="w-full mx-4" />
+        <input type="range" min="0" max="4" className="w-full mx-2" />
         <span>4</span>
       </div>
-      <button className="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">
-        Start Charging
-      </button>
     </div>
   );
 }

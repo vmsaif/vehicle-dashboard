@@ -6,55 +6,64 @@
  * @version:     0.1
  * @contact:     msaifofficial@gmail.com
  *
- * @description:
+ * @description: Dashboard component for the vehicle dashboard.
  */
 
 
 import React from "react";
 import Indicators from "./Indicators";
-import Gauges from "./Gauges";
+import Gauge from "./Gauge";
 import Controls from "./Controls";
+import InfoTile from "./InfoTile";
 
 function Dashboard() {
   return (
-    <div className="dashboard-container min-h-max bg-gray-900 text-white border-2 border-gray-500">
-      {/* Top Row: Indicators */}
-      <div className="grid grid-cols-2 mb-2 ">
+    <div className="w-auto bg-customDarkGray rounded border-2 border-customBorderFull">
+      { /* Top Row: Indicators */}
+      <div className="grid grid-cols-2 border-2 border-customBorderFull rounded" style={{ margin: "-2px" }}>
         <Indicators />
       </div>
 
+
       {/* Middle Section: Gauges */}
-      <div className="grid grid-cols-2 gap-6 mb-6">
-        <Gauges />
+      <div className="gap-24 flex justify-center px-20 bg-customGray border-2 border-customBorderFull rounded" style={{ margin: "-2px" }}>
+
+        {/* Power Gauge */}
+        <Gauge
+          value={0}
+          units="kW"
+          majorTicks={['-1000', '-750', '-500', '-250', '0', '250', '500', '750', '1000']}
+          minValue={-1000}
+          maxValue={1000}
+        />
+
+        {/* Motor RPM Gauge */}
+        <Gauge
+          value={400}
+          units="RPM"
+          majorTicks={['0', '100', '200', '300', '400', '500', '600', '700', '800']}
+          minValue={0}
+          maxValue={800}
+        />
+
       </div>
 
-      {/* Bottom Section: Info and Controls */}
-      <div className="grid grid-cols-3 gap-4">
-        <div className="col-span-2 grid grid-cols-5 gap-4 bg-gray-800 p-4 rounded shadow" style={{ border: "2px solid yellow" }}>
-          {/* Info Cards */}
-          <div className="flex flex-col items-center" style={{ border: "2px solid yellow" }}>
-            <div className="text-xl font-bold">N/N</div>
-            <div className="text-sm text-gray-400">Gear Ratio</div>
-          </div>
-          <div className="flex flex-col items-center" style={{ border: "2px solid yellow" }}>
-            <div className="text-xl font-bold">22%</div>
-            <div className="text-sm text-gray-400">Battery %</div>
-          </div>
-          <div className="flex flex-col items-center" style={{ border: "2px solid yellow" }}>
-            <div className="text-xl font-bold">33°C</div>
-            <div className="text-sm text-gray-400">Battery Temp</div>
-          </div>
-          <div className="flex flex-col items-center" style={{ border: "2px solid yellow" }}>
-            <div className="text-xl font-bold">0 RPM</div>
-            <div className="text-sm text-gray-400">Motor RPM</div>
-          </div>
+      {/* Info */}
+      <div className="grid grid-cols-6 border-2 border-customBorderFull rounded" style={{ margin: "-2px", height: "100%" }}>
+        <InfoTile value={"N/N"} label="" />
+        <InfoTile value={"22"} label="%" />
+        <InfoTile value={"33"} label="°C" />
+        <InfoTile value={"0.0"} label="RPM" />
+
+        <div className="col-span-2 flex flex-col justify-between">
+          <Controls className="flex-grow" />
         </div>
 
-        <Controls />
-      </div>
 
+      </div>
     </div>
   );
 }
 
 export default Dashboard;
+
