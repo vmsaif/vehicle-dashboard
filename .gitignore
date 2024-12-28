@@ -4,3 +4,5 @@
 
 *.pdf
 project_dir.md
+
+**/node_modules/
