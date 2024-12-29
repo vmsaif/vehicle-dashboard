@@ -9,9 +9,6 @@
  * @description: Indicators component for the vehicle dashboard.
  */
 
-    console.log("Hello, World!");
-
-
 import React from "react";
 import parkingBreakIndicatorGray from "../images/parking_break_gray.png";
 import parkingBreakIndicatorRed from "../images/parking_break_red.png";
@@ -30,6 +27,8 @@ function Indicators() {
     batteryPercentageIndicatorGray,
   ];
 
+  let defaultWidth = "w-6";
+
   return (
     <div className="grid grid-cols-6">
       {grayIndicators.map((indicator, index) => (
@@ -37,9 +36,11 @@ function Indicators() {
           key={index}
           className={`flex flex-col border-2 rounded-sm border-customGray justify-center items-center p-2 mr-px`}
         >
-          <img src={indicator} alt="indicator" className="w-6 h-10" />
-
-
+          <img
+            src={indicator}
+            alt="indicator"
+            className={`${indicator === parkingBreakIndicatorGray ? "w-8" : defaultWidth} h-10`}
+          />
         </div>
       ))}
     </div>

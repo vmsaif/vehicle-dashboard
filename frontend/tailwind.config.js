@@ -10,6 +10,7 @@ export default {
         customGray: '#333333',
         customDarkGray: '#1A1A1A',
         customBorderFull: '#5A5A5A',
+        customBorderDark: '#222222',
       },
     },
   },

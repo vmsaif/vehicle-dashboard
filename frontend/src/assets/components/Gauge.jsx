@@ -9,8 +9,8 @@
  * @description: Gauge component for the vehicle dashboard.
  */
 
-import React from 'react';
-import { RadialGauge } from 'react-canvas-gauges';
+import React from "react";
+import { RadialGauge } from "react-canvas-gauges";
 
 const Gauge = ({ value, units, majorTicks, minValue, maxValue }) => {
   return (
@@ -22,10 +22,10 @@ const Gauge = ({ value, units, majorTicks, minValue, maxValue }) => {
       majorTicks={majorTicks}
       minorTicks={1}
       highlightsWidth={0}
-      width={200}
-      height={200}
-      animationRule='elastic'
-      animationDuration='500'
+      width={300}
+      height={300}
+      animationRule="elastic"
+      animationDuration="500"
       animatedValue={true}
       colorPlate="#333333"
       colorUnits="#808080"
@@ -67,4 +67,3 @@ const Gauge = ({ value, units, majorTicks, minValue, maxValue }) => {
 };
 
 export default Gauge;
-
