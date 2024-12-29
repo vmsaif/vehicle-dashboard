@@ -44,6 +44,14 @@ cd vehicle-dashboard
 ```bash
 cd frontend
 npm install
+
+#### Create a .env file in the frontend directory and add the following line
+
+```bash
+echo "VITE_BACKEND_URL=http://localhost:3001" > .env
+```
+Replace the URL with the backend URL
+
 cd ../backend
 npm install
 ```
