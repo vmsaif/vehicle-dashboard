@@ -10,39 +10,16 @@
  */
 
 import express from 'express';
+import { getCurrentIndicator, setCurrentIndicator, broadcastIndicatorState } from '../controllers/websocketController.js';
+
 const router = express.Router();
-
-// Default indicator state
-let currentIndicator = 'gray'; // Initial state
-
-// WebSockets clients
-let wsClients = []; // List of connected WebSocket clients
-
-/**
- * Attach WebSocket server to the backend
- * @param {WebSocket.Server} wss - WebSocket server instance
- */
-function attachWebSocketServer(wss) {
-  wss.on('connection', (ws) => {
-    // Add the new client to the list
-    wsClients.push(ws);
-
-    // Send the current indicator state to the new client
-    ws.send(JSON.stringify({ indicator: currentIndicator }));
-
-    // Remove the client from the list when it disconnects
-    ws.on('close', () => {
-      wsClients = wsClients.filter((client) => client !== ws);
-    });
-  });
-}
 
 /**
  * GET /api/indicator
  * Fetch the current indicator state
  */
 router.get('/', (req, res) => {
-  res.status(200).json({ indicator: currentIndicator });
+  res.status(200).json({ indicator: getCurrentIndicator() });
 });
 
 /**
@@ -50,32 +27,31 @@ router.get('/', (req, res) => {
  * Update the indicator state (red or gray)
  */
 router.post('/', (req, res) => {
-  const { indicator } = req.body;
+  const { type, indicator } = req.body;
+  let allTypes = ['parkingBreak', 'checkEngine', 'motorStatus', 'batteryPercentage'];
 
   // Validate the incoming indicator value
   if (!['red', 'gray'].includes(indicator)) {
     return res.status(400).json({ error: 'Invalid indicator value. Use "red" or "gray".' });
   }
 
+  // Validate the incoming type value
+  if (!allTypes.includes(type)) {
+    return res.status(400).json({ error: 'Invalid indicator type.' });
+  }
+
   // Update the state
-  currentIndicator = indicator;
+  setCurrentIndicator(type, indicator);
 
   // Broadcast the updated state to all WebSocket clients
-  wsClients.forEach((client) => {
-    client.send(JSON.stringify({ indicator: currentIndicator }));
-  });
+  broadcastIndicatorState(type, indicator);
 
   res.status(200).json({
-    message: `Indicator updated to ${indicator}`,
-    indicator: currentIndicator,
+    message: `Indicator ${type} updated to ${indicator}`,
+    indicator: getCurrentIndicator(),
   });
 });
 
-export { router, attachWebSocketServer };
-
-// example POST command to change the indicator state
-// curl -X POST http://localhost:3001/api/indicator \
-// -H "Content-Type: application/json" \
-// -d '{"indicator": "gray"}'
+export { router };
 
 

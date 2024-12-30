@@ -9,7 +9,8 @@
  * @description: Indicators component for the vehicle dashboard.
  */
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useWebSocket } from '../../hooks/useWebSocket.js';
 import parkingBreakIndicatorGray from "../images/parking_break_gray.png";
 import parkingBreakIndicatorRed from "../images/parking_break_red.png";
 import checkEngineIndicatorGray from "../images/check_engine_gray.png";
@@ -20,64 +21,38 @@ import batteryPercentageIndicatorGray from "../images/battery_percentage_gray.pn
 import batteryPercentageIndicatorRed from "../images/battery_percentage_red.png";
 
 function Indicators() {
+  const indicators = useWebSocket();
 
-  const [indicator, setIndicator] = useState('gray'); // Default to 'gray'
+  const getIndicatorImage = (type) => {
+    switch (type) {
 
-  // Fetch the current indicator state on load
-  useEffect(() => {
-    // Open WebSocket connection
-    const wsUrl = import.meta.env.VITE_BACKEND_URL.replace(/^http(s)?:/, 'ws$1:');
-    const ws = new WebSocket(wsUrl); // it will be ws://localhost:3001/
-
-    // Listen for messages from the server
-    ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      if (data.indicator) {
-        setIndicator(data.indicator);
-      }
-    };
-
-    // Cleanup WebSocket connection on component unmount
-    return () => ws.close();
-  }, []);
-
-  const grayIndicators = [
-    parkingBreakIndicatorGray,
-    checkEngineIndicatorGray,
-    motorStatusIndicatorGray,
-    batteryPercentageIndicatorGray,
-  ];
-
-  const redIndicators = [
-    parkingBreakIndicatorRed,
-    checkEngineIndicatorRed,
-    motorStatusIndicatorRed,
-    batteryPercentageIndicatorRed,
-  ];
-
-  let choosenIndicators;
-  if (indicator === 'red') {
-    choosenIndicators = redIndicators;
-  } else {
-    choosenIndicators = grayIndicators;
-  }
-
-  let defaultWidth = "w-6";
+      case 'parkingBreak':
+        return indicators.parkingBreak === 'red' ? parkingBreakIndicatorRed : parkingBreakIndicatorGray;
+      case 'checkEngine':
+        return indicators.checkEngine === 'red' ? checkEngineIndicatorRed : checkEngineIndicatorGray;
+      case 'motorStatus':
+        return indicators.motorStatus === 'red' ? motorStatusIndicatorRed : motorStatusIndicatorGray;
+      case 'batteryPercentage':
+        return indicators.batteryPercentage === 'red' ? batteryPercentageIndicatorRed : batteryPercentageIndicatorGray;
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="grid grid-cols-6">
-      {choosenIndicators.map((indicator, index) => (
-        <div
-          key={index}
-          className={`flex flex-col border-2 rounded-sm border-customGray justify-center items-center p-2 mr-px`}
-        >
-          <img
-            src={indicator}
-            alt="indicator"
-            className={`${indicator === parkingBreakIndicatorGray ? "w-8" : defaultWidth} h-10`}
-          />
-        </div>
-      ))}
+      <div className="flex flex-col border-2 rounded-sm border-customGray justify-center items-center p-2 mr-px">
+        <img src={getIndicatorImage('parkingBreak')} alt="Parking Break Indicator" className="h-16" />
+      </div>
+      <div className="flex flex-col border-2 rounded-sm border-customGray justify-center items-center p-2 mr-px">
+        <img src={getIndicatorImage('checkEngine')} alt="Check Engine Indicator" className="h-16" />
+      </div>
+      <div className="flex flex-col border-2 rounded-sm border-customGray justify-center items-center p-2 mr-px">
+        <img src={getIndicatorImage('motorStatus')} alt="Motor Status Indicator" className="h-16" />
+      </div>
+      <div className="flex flex-col border-2 rounded-sm border-customGray justify-center items-center p-2 mr-px">
+        <img src={getIndicatorImage('batteryPercentage')} alt="Battery Percentage Indicator" className="h-16" />
+      </div>
     </div>
   );
 }

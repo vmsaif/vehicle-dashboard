@@ -15,7 +15,7 @@
 import React from "react";
 import gearRatio from "../images/gear_ratio.png";
 import batteryPercentage from "../images/battery_percentage_gray.png";
-import batteryTemp from "../images/battery_temparature_gray.png";
+import batteryTemp from "../images/battery_temperature_gray.png";
 import motorRPM from "../images/motor_status_gray.png";
 
 function InfoTile ({ value, label }) {
