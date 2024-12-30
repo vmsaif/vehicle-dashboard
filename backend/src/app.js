@@ -11,8 +11,8 @@ import express, { json } from 'express';
 import cors from 'cors';
 import { createServer } from 'http';
 import { WebSocketServer } from 'ws';
-import { router } from './routes/indicatorRoutes.js';
 import { attachWebSocketServer } from './controllers/websocketController.js';
+import dataController from './controllers/dataController.js';
 
 const app = express();
 
@@ -21,7 +21,8 @@ app.use(cors()); // Allow cross-origin requests
 app.use(json()); // Parse incoming JSON requests
 
 // Routes
-app.use('/api/indicator', router);
+app.get('/api/indicator-status', dataController.getIndicatorStatus); // Route to get indicator status from the database
+app.post('/api/indicator-status', dataController.updateIndicatorStatus); // Route to update indicator status in the database
 
 // Create HTTP server and WebSocket server
 const server = createServer(app);

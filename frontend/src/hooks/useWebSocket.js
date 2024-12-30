@@ -17,10 +17,10 @@ import { useEffect, useState } from 'react';
  */
 export function useWebSocket() {
   const [indicators, setIndicators] = useState({
-    parkingBreak: 'gray',
-    checkEngine: 'gray',
-    motorStatus: 'gray',
-    batteryPercentage: 'gray',
+    parking_brake: 'false',
+    check_engine: 'false',
+    motor_status: 'false',
+    battery_low: 'false',
   });
 
   useEffect(() => {

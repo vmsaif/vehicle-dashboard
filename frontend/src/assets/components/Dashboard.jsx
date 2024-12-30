@@ -14,12 +14,15 @@ import Indicators from './Indicators'
 import Gauge from './Gauge'
 import Controls from './Controls'
 import InfoTile from './InfoTile'
+import ChargeIcon from './ChargeIcon'
 import BottomRowButtons from './BottomRowButtons'
 import appDrawer from '../images/app_drawer.png'
-import chargeIconGray from '../images/charging_gray.png'
-import chargeIconGreen from '../images/charging_green.png'
+
 
 function Dashboard() {
+  // Vehicle ID the dashboard belongs to.
+  const vehicleId = 1;
+
   return (
     <div className="w-auto bg-customDarkGray rounded border-2 border-customBorderFull">
       {/* Top Row: Indicators */}
@@ -27,7 +30,7 @@ function Dashboard() {
         className="grid grid-cols-2 border-2 border-customBorderFull rounded"
         style={{ margin: '-2px' }}
       >
-        <Indicators />
+        <Indicators vehicleId={vehicleId}/>
       </div>
 
       {/* Middle Section: Gauges */}
@@ -79,13 +82,13 @@ function Dashboard() {
         className="grid grid-cols-6 border-2 border-customBorderFull rounded"
         style={{ margin: '-2px', height: '100%' }}
       >
-        <InfoTile value={'N/N'} label="" />
-        <InfoTile value={'22'} label="%" />
-        <InfoTile value={'33'} label="°C" />
-        <InfoTile value={'0.0'} label="RPM" />
+        <InfoTile vehicleId={vehicleId} value={'N/N'} label="" />
+        <InfoTile vehicleId={vehicleId} value={'22'} label="%" />
+        <InfoTile vehicleId={vehicleId} value={'33'} label="°C" />
+        <InfoTile vehicleId={vehicleId} value={'0.0'} label="RPM" />
 
         <div className="col-span-2 flex flex-col justify-between">
-          <Controls className="flex-grow" />
+          <Controls vehicleId = {vehicleId} className="flex-grow" />
         </div>
       </div>
 
@@ -96,7 +99,7 @@ function Dashboard() {
       >
         {/* Left Section: BottomRowButtons */}
         <div className="justify-start border-2 rounded-md border-customGray bg-customDarkGray" style={{ width: '45.25%' }}>
-          <BottomRowButtons />
+          <BottomRowButtons vehicleId={vehicleId} />
         </div>
 
         {/* App Drawer */}
@@ -108,11 +111,9 @@ function Dashboard() {
         </div>
 
         {/* Charge Icon */}
-        <div className="flex justify-end border-2 rounded-md border-customGray bg-customDarkGray" style={{ width: '45.25%' }} >
-          <div className="border-2 rounded-sm border-customGray p-2" >
-            <img src={chargeIconGray} alt="charge icon" className="h-16 w-16" />
-          </div>
 
+        <div className="flex justify-end border-2 rounded-md border-customGray bg-customDarkGray" style={{ width: '45.25%' }} >
+          <ChargeIcon vehicleId = {vehicleId} />
         </div>
 
       </div>

@@ -7,12 +7,6 @@
 --
 -- @description: This file is used to insert initial values into the database.
 
--- Create Vehicle Table
-CREATE TABLE IF NOT EXISTS vehicle (
-    id SERIAL PRIMARY KEY,
-    vin VARCHAR(17) NOT NULL UNIQUE,
-    name VARCHAR(100)
-);
 -- Create Vehicle Table if not exists
 CREATE TABLE IF NOT EXISTS vehicle (
     id SERIAL PRIMARY KEY,

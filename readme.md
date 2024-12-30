@@ -66,55 +66,29 @@ npm install
 The indicators can be changed directly by sending a POST request to the API endpoint
 
 ```bash
-curl -X POST http://localhost:3001/api/indicator \
+curl -X POST http://localhost:3001/api/indicator-status \
   -H "Content-Type: application/json" \
   -d '{
-    "type": "parkingBreak",
-    "indicator": "red"
+    "vehicle_id": 1,
+    "type": "motor_status",
+    "indicator": false
   }'
 ```
 
-Where type can be one of the following values
- - parkingBreak
- - checkEngine
- - motorStatus
- - batteryPercentage
-
-And indicator can be one of the following values
- - red
- - gray
-
-To make things easier, a simple script has been added to the backend to change the indicators
+To make things easier, a simple script has been added to change the indicators.
 
 ```bash
-# ./send-indicator.sh <type> <indicator>
-./post_requests.sh parkingBreak red
+# ./send-indicator.sh <type> <indicator Boolean>
+./post_requests.sh parking_brake true
 ```
 
-Available commands are:
-- #### Change Parking Break Indicator to red or gray
-  ```bash
-  ./post_requests.sh parkingBreak red
-  ./post_requests.sh parkingBreak gray
-  ```
+Available possible values for type are:
+- parking_brake
+- check_engine
+- motor_status
+- battery_low
 
-- #### Change Check Engine Indicator to red or gray
-  ```bash
-  ./post_requests.sh checkEngine red
-  ./post_requests.sh checkEngine gray
-  ```
-
-- #### Change Motor Status Indicator to red or gray
-  ```bash
-  ./post_requests.sh motorStatus red
-  ./post_requests.sh motorStatus gray
-  ```
-
-- #### Change Battery Percentage Indicator to red or gray
-  ```bash
-  ./post_requests.sh batteryPercentage red
-  ./post_requests.sh batteryPercentage gray
-  ```
+And the indicator can be either true or false
 
 
 ### Install tailwindcss by following the instructions [here](https://tailwindcss.com/docs/guides/vite)

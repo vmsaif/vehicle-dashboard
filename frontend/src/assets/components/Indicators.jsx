@@ -9,52 +9,75 @@
  * @description: Indicators component for the vehicle dashboard.
  */
 
-import React from 'react';
-import { useWebSocket } from '../../hooks/useWebSocket.js';
-import parkingBreakIndicatorGray from "../images/parking_break_gray.png";
-import parkingBreakIndicatorRed from "../images/parking_break_red.png";
-import checkEngineIndicatorGray from "../images/check_engine_gray.png";
-import checkEngineIndicatorRed from "../images/check_engine_red.png";
-import motorStatusIndicatorGray from "../images/motor_status_gray.png";
-import motorStatusIndicatorRed from "../images/motor_status_red.png";
-import batteryPercentageIndicatorGray from "../images/battery_percentage_gray.png";
-import batteryPercentageIndicatorRed from "../images/battery_percentage_red.png";
+import React from 'react'
+// import { useWebSocket } from '../../hooks/useWebSocket';
+import { useIndicators } from '../../hooks/useIndicators.js';
+import parkingBrakeIndicatorGray from '../images/parking_break_gray.png'
+import parkingBrakeIndicatorRed from '../images/parking_break_red.png'
+import checkEngineIndicatorGray from '../images/check_engine_gray.png'
+import checkEngineIndicatorRed from '../images/check_engine_red.png'
+import motorStatusIndicatorGray from '../images/motor_status_gray.png'
+import motorStatusIndicatorRed from '../images/motor_status_red.png'
+import batteryLowIndicatorGray from '../images/battery_percentage_gray.png'
+import batteryLowIndicatorRed from '../images/battery_percentage_red.png'
 
-function Indicators() {
-  const indicators = useWebSocket();
-
+function Indicators({ vehicleId }) {
+  const indicators = useIndicators(vehicleId);
   const getIndicatorImage = (type) => {
     switch (type) {
-
-      case 'parkingBreak':
-        return indicators.parkingBreak === 'red' ? parkingBreakIndicatorRed : parkingBreakIndicatorGray;
-      case 'checkEngine':
-        return indicators.checkEngine === 'red' ? checkEngineIndicatorRed : checkEngineIndicatorGray;
-      case 'motorStatus':
-        return indicators.motorStatus === 'red' ? motorStatusIndicatorRed : motorStatusIndicatorGray;
-      case 'batteryPercentage':
-        return indicators.batteryPercentage === 'red' ? batteryPercentageIndicatorRed : batteryPercentageIndicatorGray;
+      case 'parking_brake':
+        return indicators.parking_brake
+          ? parkingBrakeIndicatorRed
+          : parkingBrakeIndicatorGray
+      case 'check_engine':
+        return indicators.check_engine
+          ? checkEngineIndicatorRed
+          : checkEngineIndicatorGray
+      case 'motor_status':
+        return indicators.motor_status
+          ? motorStatusIndicatorRed
+          : motorStatusIndicatorGray
+      case 'battery_low':
+        return indicators.battery_low
+          ? batteryLowIndicatorRed
+          : batteryLowIndicatorGray
       default:
-        return null;
+        return null
     }
-  };
+  }
 
   return (
     <div className="grid grid-cols-6">
       <div className="flex flex-col border-2 rounded-sm border-customGray justify-center items-center p-2 mr-px">
-        <img src={getIndicatorImage('parkingBreak')} alt="Parking Break Indicator" className="h-16" />
+        <img
+          src={getIndicatorImage('parking_brake')}
+          alt="Parking Break Indicator"
+          className="h-16"
+        />
       </div>
       <div className="flex flex-col border-2 rounded-sm border-customGray justify-center items-center p-2 mr-px">
-        <img src={getIndicatorImage('checkEngine')} alt="Check Engine Indicator" className="h-16" />
+        <img
+          src={getIndicatorImage('check_engine')}
+          alt="Check Engine Indicator"
+          className="h-16"
+        />
       </div>
       <div className="flex flex-col border-2 rounded-sm border-customGray justify-center items-center p-2 mr-px">
-        <img src={getIndicatorImage('motorStatus')} alt="Motor Status Indicator" className="h-16" />
+        <img
+          src={getIndicatorImage('motor_status')}
+          alt="Motor Status Indicator"
+          className="h-16"
+        />
       </div>
       <div className="flex flex-col border-2 rounded-sm border-customGray justify-center items-center p-2 mr-px">
-        <img src={getIndicatorImage('batteryPercentage')} alt="Battery Percentage Indicator" className="h-16" />
+        <img
+          src={getIndicatorImage('battery_low')}
+          alt="Battery Percentage Indicator"
+          className="h-16"
+        />
       </div>
     </div>
-  );
+  )
 }
 
 export default Indicators;

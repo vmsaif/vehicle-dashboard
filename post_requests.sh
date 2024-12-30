@@ -11,17 +11,20 @@
 # Check if the correct number of arguments is provided
 if [ "$#" -ne 2 ]; then
   echo "Usage: $0 <type> <indicator>"
-  echo "Example: $0 parkingBreak red"
+  echo "Example: $0 parking_brake red"
   exit 1
 fi
 
 TYPE=$1
 INDICATOR=$2
 
+echo "Changing $TYPE indicator to $INDICATOR"
+
 # Send the POST request using curl
-curl -X POST http://localhost:3001/api/indicator \
+curl -X POST http://localhost:3001/api/indicator-status \
   -H "Content-Type: application/json" \
   -d "{
+    \"vehicle_id\": 1,
     \"type\": \"$TYPE\",
     \"indicator\": \"$INDICATOR\"
   }"

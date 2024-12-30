@@ -9,12 +9,9 @@
  * @description: InfoTile component for the vehicle dashboard.
  */
 
-    console.log("Hello, World!");
-
-
 import React from "react";
 import gearRatio from "../images/gear_ratio.png";
-import batteryPercentage from "../images/battery_percentage_gray.png";
+import batteryLow from "../images/battery_percentage_gray.png";
 import batteryTemp from "../images/battery_temperature_gray.png";
 import motorRPM from "../images/motor_status_gray.png";
 
@@ -24,7 +21,7 @@ function InfoTile ({ value, label }) {
   if (label === "") {
     image = gearRatio;
   } else if (label === "%") {
-    image = batteryPercentage;
+    image = batteryLow;
   } else if (label === "°C") {
     image = batteryTemp;
     fontMargin = "-ml-4";
