@@ -82,10 +82,10 @@ function Dashboard() {
         className="grid grid-cols-6 border-2 border-customBorderFull rounded"
         style={{ margin: '-2px', height: '100%' }}
       >
-        <InfoTile vehicleId={vehicleId} value={'N/N'} label="" />
-        <InfoTile vehicleId={vehicleId} value={'22'} label="%" />
-        <InfoTile vehicleId={vehicleId} value={'33'} label="°C" />
-        <InfoTile vehicleId={vehicleId} value={'0.0'} label="RPM" />
+        <InfoTile vehicleId={vehicleId} label="" />
+        <InfoTile vehicleId={vehicleId} label="%" />
+        <InfoTile vehicleId={vehicleId} label="°C" />
+        <InfoTile vehicleId={vehicleId} label="RPM" />
 
         <div className="col-span-2 flex flex-col justify-between">
           <Controls vehicleId = {vehicleId} className="flex-grow" />

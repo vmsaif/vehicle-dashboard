@@ -9,42 +9,42 @@
  * @description: Indicators component for the vehicle dashboard.
  */
 
-import React from 'react'
-// import { useWebSocket } from '../../hooks/useWebSocket';
-import { useIndicators } from '../../hooks/useIndicators.js';
-import parkingBrakeIndicatorGray from '../images/parking_break_gray.png'
-import parkingBrakeIndicatorRed from '../images/parking_break_red.png'
-import checkEngineIndicatorGray from '../images/check_engine_gray.png'
-import checkEngineIndicatorRed from '../images/check_engine_red.png'
-import motorStatusIndicatorGray from '../images/motor_status_gray.png'
-import motorStatusIndicatorRed from '../images/motor_status_red.png'
-import batteryLowIndicatorGray from '../images/battery_percentage_gray.png'
-import batteryLowIndicatorRed from '../images/battery_percentage_red.png'
+import React from 'react';
+import { useSupabaseService } from '../../hooks/useSupabaseService.js';
+import parkingBrakeIndicatorGray from '../images/parking_break_gray.png';
+import parkingBrakeIndicatorRed from '../images/parking_break_red.png';
+import checkEngineIndicatorGray from '../images/check_engine_gray.png';
+import checkEngineIndicatorRed from '../images/check_engine_red.png';
+import motorStatusIndicatorGray from '../images/motor_status_gray.png';
+import motorStatusIndicatorRed from '../images/motor_status_red.png';
+import batteryLowIndicatorGray from '../images/battery_percentage_gray.png';
+import batteryLowIndicatorRed from '../images/battery_percentage_red.png';
 
 function Indicators({ vehicleId }) {
-  const indicators = useIndicators(vehicleId);
+  const { indicators } = useSupabaseService(vehicleId);
+
   const getIndicatorImage = (type) => {
     switch (type) {
       case 'parking_brake':
         return indicators.parking_brake
           ? parkingBrakeIndicatorRed
-          : parkingBrakeIndicatorGray
+          : parkingBrakeIndicatorGray;
       case 'check_engine':
         return indicators.check_engine
           ? checkEngineIndicatorRed
-          : checkEngineIndicatorGray
+          : checkEngineIndicatorGray;
       case 'motor_status':
         return indicators.motor_status
           ? motorStatusIndicatorRed
-          : motorStatusIndicatorGray
+          : motorStatusIndicatorGray;
       case 'battery_low':
         return indicators.battery_low
           ? batteryLowIndicatorRed
-          : batteryLowIndicatorGray
+          : batteryLowIndicatorGray;
       default:
-        return null
+        return null;
     }
-  }
+  };
 
   return (
     <div className="grid grid-cols-6">
@@ -77,7 +77,7 @@ function Indicators({ vehicleId }) {
         />
       </div>
     </div>
-  )
+  );
 }
 
 export default Indicators;

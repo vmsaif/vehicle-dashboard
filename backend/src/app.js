@@ -21,8 +21,26 @@ app.use(cors()); // Allow cross-origin requests
 app.use(json()); // Parse incoming JSON requests
 
 // Routes
+
+// Route to indicator status from the database
 app.get('/api/indicator-status', dataController.getIndicatorStatus); // Route to get indicator status from the database
 app.post('/api/indicator-status', dataController.updateIndicatorStatus); // Route to update indicator status in the database
+
+// Route to power consumption
+app.get('/api/power-consumption', dataController.getPowerConsumption); // Route to get power consumption from the database
+app.post('/api/power-consumption', dataController.updatePowerConsumption); // Route to update power consumption in the database
+
+// Route to Motor Speed settings
+app.get('/api/motor-rpm', dataController.getMotorRpm); // Route to get Motor Speed from the database
+app.post('/api/motor-speed', dataController.updateMotorSpeed); // Route to update Motor Speed in the database
+
+// Route to Battery
+app.get('/api/battery', dataController.getBattery); // Route to get Battery from the database
+app.post('/api/battery', dataController.updateBattery); // Route to update Battery in the database
+
+// Route to Gear Ratio
+app.get('/api/gear-ratio', dataController.getGearRatio); // Route to get Gear Ratio from the database
+app.post('/api/gear-ratio', dataController.updateGearRatio); // Route to update Gear Ratio in the database
 
 // Create HTTP server and WebSocket server
 const server = createServer(app);

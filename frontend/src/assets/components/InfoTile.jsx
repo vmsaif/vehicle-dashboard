@@ -15,17 +15,25 @@ import batteryLow from "../images/battery_percentage_gray.png";
 import batteryTemp from "../images/battery_temperature_gray.png";
 import motorRPM from "../images/motor_status_gray.png";
 
-function InfoTile ({ value, label }) {
+import { useSupabaseService } from '../../hooks/useSupabaseService.js';
+
+function InfoTile ({ vehicleId, value, label }) {
+  const {infoTiles} = useSupabaseService(vehicleId);
   let image = "";
   let fontMargin = "ml-0";
+
   if (label === "") {
     image = gearRatio;
+    value = infoTiles.gear_ratio;
   } else if (label === "%") {
     image = batteryLow;
+    value = infoTiles.battery_percentage;
   } else if (label === "°C") {
     image = batteryTemp;
+    value = infoTiles.battery_temperature;
     fontMargin = "-ml-4";
   } else if (label === "RPM") {
+    value = infoTiles.motor_rpm;
     image = motorRPM;
 
   }

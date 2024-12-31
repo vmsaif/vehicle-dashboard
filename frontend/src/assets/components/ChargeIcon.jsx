@@ -12,13 +12,13 @@
 import React from 'react';
 import chargeIconGray from '../images/charging_gray.png';
 import chargeIconGreen from '../images/charging_green.png';
-import { useIndicators } from '../../hooks/useIndicators.js';
+import { useSupabaseService } from '../../hooks/useSupabaseService.js';
 
 function ChargeIcon({ vehicleId }) {
+  const indicatorData = useSupabaseService(vehicleId);
 
-  const indicators = useIndicators(vehicleId);
   const getChargeIcon = () => {
-    return indicators.is_charging ? chargeIconGreen : chargeIconGray;
+    return indicatorData.indicators.is_charging ? chargeIconGreen : chargeIconGray;
   }
 
   return (
