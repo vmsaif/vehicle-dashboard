@@ -1,0 +1,3 @@
+[submodule "frontend/src/react-canvas-gauges"]
+	path = frontend/src/react-canvas-gauges
+	url = https://github.com/1995parham/react-canvas-gauges.git
