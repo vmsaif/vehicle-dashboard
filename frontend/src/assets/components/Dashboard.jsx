@@ -40,6 +40,7 @@ function Dashboard() {
       >
         {/* Power Gauge */}
         <Gauge
+          vehicleId={vehicleId}
           value={0}
           units="kW"
           majorTicks={[
@@ -59,6 +60,7 @@ function Dashboard() {
 
         {/* Motor RPM Gauge */}
         <Gauge
+          vehicleId={vehicleId}
           value={400}
           units="RPM"
           majorTicks={[
