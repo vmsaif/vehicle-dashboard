@@ -10,13 +10,11 @@
  */
 
 import React from "react";
-import { RadialGauge } from "react-canvas-gauges";
+import { GaugeComponent } from 'react-gauge-component';
 import { useSupabaseService } from '../../hooks/useSupabaseService.js';
 
-
-const Gauge = ({ vehicleId, value, units, majorTicks, minValue, maxValue }) => {
-
-
+const Gauge = ({ vehicleId, units, majorTicks, minValue, maxValue }) => {
+  let value = minValue;
   const allData = useSupabaseService(vehicleId);
   if (units === "kW") {
     value = allData.gaugeData.power_consumption;
@@ -24,65 +22,76 @@ const Gauge = ({ vehicleId, value, units, majorTicks, minValue, maxValue }) => {
     value = allData.gaugeData.motor_rpm;
   }
 
+  let minValueDigitCount = Math.abs(minValue).toString().length;
+  let margin_left = 0.13;
+  let margin_right = 0.14;
+
+  if (minValueDigitCount < 3) {
+    margin_left = 0.11;
+    margin_right = 0.09;
+  }
 
   return (
-    <RadialGauge
-      units={units}
-      value={value}
-      minValue={minValue}
-      maxValue={maxValue}
-      majorTicks={majorTicks}
-      minorTicks={1}
-      highlightsWidth={0}
-      width={300}
-      height={300}
-      // listeners={
-      //   {
-      //     value: function (newValue, oldValue) {
-      //       console.log(newValue, oldValue);
-      //     }
-      //   }
-      // }
-      animation={true}
-      animationDuration={2500} // Set the duration of the animation
-      // animationRule="linier" // Set the rule of the animation
+    <div>
+      <GaugeComponent
+        type="radial"
+        value={value} // Value
+        minValue={minValue} // Minimum value
+        maxValue={maxValue} // Maximum value
+        marginInPercent={{
+          top: 0.06,
+          bottom: 0.00,
+          left: margin_left,
+          right: margin_right
+        }}
+        style={{
+          width: "200px", // Width of the gauge
+          height: "195px", // Height of the gauge
+          border: "3px solid #1A1A1A",
+          borderRadius: "50%", // Make the border circular
+          boxShadow: "0 0 0 4px #787878, 0 0 0 7px #1A1A1A",
+        }}
 
-      colorPlate="#333333"
-      colorUnits="#808080"
-      colorNumbers="#808080"
-      colorMajorTicks="#333333"
-      needleType="arrow"
-      colorNeedle="#676767"
-      colorNeedleEnd="#ffffff"
-      colorNeedleShadowUp="#676767"
-      colorNeedleShadowDown="#ffffff"
-      needleShadow={false}
-      needleStart="7"
-      needleEnd="75"
-      colorValueText="#FFFFFF"
-      colorValueTextShadow="false"
-      colorBorderOuter="#1A1A1A"
-      colorBorderOuterEnd="#1A1A1A"
-      colorBorderMiddle="#787878"
-      colorBorderMiddleEnd="#787878"
-      colorBorderInner="#1A1A1A"
-      colorBorderInnerEnd="#1A1A1A"
-      valueBoxWidth={1}
-      valueInt={1}
-      valueDec={0}
-      colorValueBoxRect="#333333"
-      colorValueBoxRectEnd="#333333"
-      colorValueBoxBackground="#333333"
-      colorValueBoxShadow="#333333"
-      needleCircleOuter={false}
-      needleCircleInner={false}
-      borderOuterWidth="2"
-      borderInnerWidth="4"
-      numbersMargin={-15}
-      fontUnitsWeight="bold"
-      barStartPosition="middle"
-      valueBox={true}
-    />
+        arc={{
+          cornerRadius: 10, // Smooth corner radius
+          padding: 0.0, // Padding between subArcs
+          width: 0.0, // Arc width as a percentage of the radius
+          colorArray: ["#1A1A1A"], // Custom colors
+        }}
+
+        pointer={{
+          type: "needle", // Needle type
+          color: "#676767", // Needle color
+          animate: true, // Enable animation
+          width: 17, // Width of the needle
+          length: 0.95, // Length of the needle relative to the radius
+        }}
+        labels={{
+          valueLabel: {
+            style: {
+              whiteSpace: "pre-wrap",
+              fontSize: "30px",
+            },
+            formatTextValue: (value) => `${value}\n${units}`,
+          },
+          tickLabels: {
+            type: "outer",
+            hideMinMax: false, // Show min and max labels
+            ticks: majorTicks,
+            defaultTickLineConfig: {
+              hide : true,
+            },
+            defaultTickValueConfig: {
+              style: {
+                fill: "#808080",
+              }
+            }
+          },
+
+
+        }}
+      />
+    </div>
   );
 };
 

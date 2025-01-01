@@ -35,24 +35,23 @@ function Dashboard() {
 
       {/* Middle Section: Gauges */}
       <div
-        className="gap-36 flex justify-center px-40 bg-customGray border-2 border-customBorderFull rounded"
+        className="gap-36 flex justify-center px-40 py-4 bg-customGray border-2 border-customBorderFull rounded"
         style={{ margin: '-2px' }}
       >
         {/* Power Gauge */}
         <Gauge
           vehicleId={vehicleId}
-          value={0}
           units="kW"
           majorTicks={[
-            '-1000',
-            '-750',
-            '-500',
-            '-250',
-            '0',
-            '250',
-            '500',
-            '750',
-            '1000',
+            {value : '-1000'},
+            {value : '-750'},
+            {value : '-500'},
+            {value : '-250'},
+            {value : '0'},
+            {value : '250'},
+            {value : '500'},
+            {value : '750'},
+            {value : '1000'},
           ]}
           minValue={-1000}
           maxValue={1000}
@@ -64,15 +63,15 @@ function Dashboard() {
           value={400}
           units="RPM"
           majorTicks={[
-            '0',
-            '100',
-            '200',
-            '300',
-            '400',
-            '500',
-            '600',
-            '700',
-            '800',
+            {value : '0'},
+            {value : '100'},
+            {value : '200'},
+            {value : '300'},
+            {value : '400'},
+            {value : '500'},
+            {value : '600'},
+            {value : '700'},
+            {value : '800'},
           ]}
           minValue={0}
           maxValue={800}

@@ -7,7 +7,7 @@
  * @description: Service for handling real-time updates from Supabase.
  */
 
-import { supabase } from './supabaseClient';
+import { supabase } from '../db/supabaseClient.js';
 
 class SupabaseService {
   constructor() {
@@ -70,7 +70,6 @@ class SupabaseService {
       }
 
       this.indicators = indicatorsData;
-      console.log('charging:' + this.indicators.is_charging);
       this.infoTiles = {
         gear_ratio: gearData ? gearData.ratio : 'N/N',
         battery_percentage: batteryData ? batteryData.percentage : 0,

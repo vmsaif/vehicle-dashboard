@@ -32,8 +32,8 @@ if [ "$#" -ne 3 ] && [ "$#" -ne 5 ]; then
   exit 1
 fi
 
-if [ "$TYPE" != "indicator" ] && [ "$TYPE" != "power" ] && [ "$TYPE" != "motor" ] && [ "$TYPE" != "battery" ] && [ "$TYPE" != "gear" ]; then
-  echo "Invalid type. Must be one of: indicator, power, motor, battery."
+if [ "$TYPE" != "indicator" ] && [ "$TYPE" != "power" ] && [ "$TYPE" != "motor" ] && [ "$TYPE" != "battery" ] && [ "$TYPE" != "gear" ] && [ "$TYPE" != "speedBar" ] && [ "$TYPE" != "rpm" ]; then
+  echo "Invalid type. Must be one of: indicator, power, motor, battery, speedBar, gear, rpm."
   exit 1
 fi
 
@@ -51,6 +51,21 @@ if [ "$TYPE" == "indicator" ]; then
       \"type\": \"$FIELD\",
       \"indicator\": \"$VALUE\"
     }"
+
+elif [ "$TYPE" == "rpm" ]; then
+  if [ "$FIELD" != "rpm" ]; then
+    echo "Invalid field. Available fields: rpm."
+    exit 1
+  fi
+  # Send the POST request using curl
+  echo "Sending POST request to update motor RPM..."
+  curl -X POST http://localhost:3001/api/motor-rpm \
+    -H "Content-Type: application/json" \
+    -d "{
+      \"vehicle_id\": 1,
+      \"$FIELD\": $VALUE
+    }"
+
 elif [ "$TYPE" == "gear" ]; then
   if [ "$FIELD" != "ratio" ]; then
     echo "Invalid field. Available fields: ratio."
@@ -64,8 +79,20 @@ elif [ "$TYPE" == "gear" ]; then
       \"vehicle_id\": 1,
       \"$FIELD\": $VALUE
     }"
-fi
 
+elif [ "$TYPE" == "speedBar" ]; then
+  if [ "$FIELD" != "speed_settings" ]; then
+    echo "Invalid field. Available fields: speed_setting."
+    exit 1
+  fi
+  # Send the POST request using curl
+  curl -X POST http://localhost:3001/api/motor-speed-bar \
+    -H "Content-Type: application/json" \
+    -d "{
+      \"vehicle_id\": 1,
+      \"$FIELD\": $VALUE
+    }"
+fi
 
 # Check if the type is one of the expected types and validate the number of arguments
 if [ "$TYPE" == "power" ] || [ "$TYPE" == "motor" ] || [ "$TYPE" == "battery" ]; then
@@ -97,7 +124,7 @@ if [ "$TYPE" == "power" ] || [ "$TYPE" == "motor" ] || [ "$TYPE" == "battery" ];
       exit 1
     fi
     # Send the POST request using curl
-    curl -X POST http://localhost:3001/api/motor-speed \
+    curl -X POST http://localhost:3001/api/motor-speed-rpm \
       -H "Content-Type: application/json" \
       -d "{
         \"vehicle_id\": 1,

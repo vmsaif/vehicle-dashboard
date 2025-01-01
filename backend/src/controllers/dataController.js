@@ -155,17 +155,51 @@ async function getMotorRpm(req, res) {
 }
 
 /**
- * Updates the motor speed.
+ * Updates the motor speed and RPM.
  * @param {Request} req The request object.
  * @param {Response} res The response object.
  */
-async function updateMotorRpmAndSpeed(req, res) {
-  const { vehicle_id, rpm, speed_setting } = req.body;
+async function updateMotorRpm(req, res) {
+  const { vehicle_id, rpm } = req.body;
   try {
     // Update the motor speed in the database
     const { data, error } = await supabase
       .from('motor')
-      .update({ rpm, speed_setting })
+      .update({ rpm })
+      .eq('vehicle_id', vehicle_id)
+      .select();
+
+    if (error) {
+      throw error;
+    }
+
+    if (data.length === 0) {
+      return res.status(404).json({ error: 'Motor data not found' });
+    }
+
+    // Return the updated motor speed data
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).send(JSON.stringify(data[0], null, 2) + '\n');
+
+  } catch (err) {
+    console.error('Error updating motor speed:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+/**
+ * Updates the motor speed only.
+ * @param {Request} req The request object.
+ * @param {Response} res The response object.
+ *
+ */
+async function updateMotorSpeedBar(req, res) {
+  const { vehicle_id, speed_setting } = req.body;
+  try {
+    // Update the motor speed in the database
+    const { data, error } = await supabase
+      .from('motor')
+      .update({ speed_setting })
       .eq('vehicle_id', vehicle_id)
       .select();
 
@@ -300,7 +334,8 @@ export default {
   getPowerConsumption,
   updatePowerConsumption,
   getMotorRpm,
-  updateMotorSpeed: updateMotorRpmAndSpeed,
+  updateMotorRpm,
+  updateMotorSpeedBar,
   getBattery,
   updateBattery,
   getGearRatio,

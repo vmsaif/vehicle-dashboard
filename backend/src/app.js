@@ -32,7 +32,8 @@ app.post('/api/power-consumption', dataController.updatePowerConsumption); // Ro
 
 // Route to Motor Speed settings
 app.get('/api/motor-rpm', dataController.getMotorRpm); // Route to get Motor Speed from the database
-app.post('/api/motor-speed', dataController.updateMotorSpeed); // Route to update Motor Speed in the database
+app.post('/api/motor-rpm', dataController.updateMotorRpm); // Route to update Motor Speed in the database
+app.post('/api/motor-speed-bar', dataController.updateMotorSpeedBar); // Route to update Motor Speed in the database
 
 // Route to Battery
 app.get('/api/battery', dataController.getBattery); // Route to get Battery from the database
