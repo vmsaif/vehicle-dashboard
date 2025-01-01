@@ -20,6 +20,25 @@ TYPE=$1
 FIELD=$2
 VALUE=$3
 
+if [ "$TYPE" == "power_consumption" ]; then
+  # Send the POST request using curl
+  curl -X POST http://localhost:3001/api/power-consumption \
+    -H "Content-Type: application/json" \
+    -d "{
+      \"vehicle_id\": 1,
+      \"$TYPE\": $FIELD
+    }"
+fi
+
+if [ "$TYPE" == "power_input" ]; then
+  # Send the POST request using curl
+  curl -X POST http://localhost:3001/api/power-input \
+    -H "Content-Type: application/json" \
+    -d "{
+      \"vehicle_id\": 1,
+      \"$TYPE\": $FIELD
+    }"
+fi
 
 if [ "$#" -ne 3 ] && [ "$#" -ne 5 ]; then
   echo "Invalid number of arguments."
@@ -38,8 +57,8 @@ if [ "$TYPE" != "indicator" ] && [ "$TYPE" != "power" ] && [ "$TYPE" != "motor" 
 fi
 
 if [ "$TYPE" == "indicator" ]; then
-  if [ "$FIELD" != "parking_brake" ] && [ "$FIELD" != "check_engine" ] && [ "$FIELD" != "motor_status" ] && [ "$FIELD" != "battery_low" ] && [ "$FIELD" != "is_charging" ]; then
-    echo "Invalid field. Available fields: parking_brake, check_engine, motor_status, battery_low, is_charging."
+  if [ "$FIELD" != "parking_brake" ] && [ "$FIELD" != "check_engine" ] && [ "$FIELD" != "motor_status" ] && [ "$FIELD" != "battery" ] && [ "$FIELD" != "is_charging" ]; then
+    echo "Invalid field. Available fields: parking_brake, check_engine, motor_status, battery, is_charging."
     exit 1
   fi
   # Send the POST request using curl
@@ -105,19 +124,7 @@ if [ "$TYPE" == "power" ] || [ "$TYPE" == "motor" ] || [ "$TYPE" == "battery" ];
   VALUE2=$5
 
   # Validate fields for each type
-  if [ "$TYPE" == "power" ]; then
-    if [ "$FIELD" != "power_consumption" ] || [ "$FIELD2" != "power_input" ]; then
-      echo "Invalid field. Available fields: power_consumption, power_input."
-      exit 1
-    fi
-    # Send the POST request using curl
-    curl -X POST http://localhost:3001/api/power-consumption \
-      -H "Content-Type: application/json" \
-      -d "{
-        \"vehicle_id\": 1,
-        \"$FIELD\": $VALUE,
-        \"$FIELD2\": $VALUE2
-      }"
+
   elif [ "$TYPE" == "motor" ]; then
     if [ "$FIELD" != "rpm" ] || [ "$FIELD2" != "speed_setting" ]; then
       echo "Invalid field. Available fields: rpm, speed_setting."

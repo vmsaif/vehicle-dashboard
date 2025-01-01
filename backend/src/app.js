@@ -29,6 +29,7 @@ app.post('/api/indicator-status', dataController.updateIndicatorStatus); // Rout
 // Route to power consumption
 app.get('/api/power-consumption', dataController.getPowerConsumption); // Route to get power consumption from the database
 app.post('/api/power-consumption', dataController.updatePowerConsumption); // Route to update power consumption in the database
+app.post('/api/power-input', dataController.updatePowerInput); // Route to update power input in the database
 
 // Route to Motor Speed settings
 app.get('/api/motor-rpm', dataController.getMotorRpm); // Route to get Motor Speed from the database

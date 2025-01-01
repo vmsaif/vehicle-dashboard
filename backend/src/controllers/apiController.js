@@ -101,12 +101,20 @@ export async function updateMotorSpeedBar(vehicleId, speed_setting) {
  * @param {number} powerInput - The new power input value.
  * @returns {Promise<object>} - The response data from the server.
  */
-export async function updatePowerConsumption(vehicleId, powerConsumption, powerInput) {
+export async function updatePowerConsumption(vehicleId, powerConsumption) {
   const url = 'http://localhost:3001/api/power-consumption';
   const data = {
     vehicle_id: vehicleId,
-    power_consumption: powerConsumption,
-    power_input: powerInput,
+    power_consumption: powerConsumption
+  };
+  return sendPostRequest(url, data);
+}
+
+export async function updatePowerInput(vehicleId, powerInput) {
+  const url = 'http://localhost:3001/api/power-consumption';
+  const data = {
+    vehicle_id: vehicleId,
+    power_input: powerInput
   };
   return sendPostRequest(url, data);
 }

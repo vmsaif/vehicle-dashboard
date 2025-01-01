@@ -100,12 +100,12 @@ async function getPowerConsumption(req, res) {
  * @param {Response} res The response object.
  */
 async function updatePowerConsumption(req, res) {
-  const { vehicle_id, power_consumption, power_input } = req.body;
+  const { vehicle_id, power_consumption } = req.body;
   try {
     // Update the power consumption in the database
     const { data, error } = await supabase
       .from('power')
-      .update({ power_consumption, power_input })
+      .update({ power_consumption })
       .eq('vehicle_id', vehicle_id)
       .select();
 
@@ -126,6 +126,35 @@ async function updatePowerConsumption(req, res) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }
+
+async function updatePowerInput(req, res) {
+  const { vehicle_id, power_input } = req.body;
+  try {
+    // Update the power input in the database
+    const { data, error } = await supabase
+      .from('power')
+      .update({ power_input })
+      .eq('vehicle_id', vehicle_id)
+      .select();
+
+    if (error) {
+      throw error;
+    }
+
+    if (data.length === 0) {
+      return res.status(404).json({ error: 'Power data not found' });
+    }
+
+    // Return the updated power input data
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).send(JSON.stringify(data[0], null, 2) + '\n');
+
+  } catch (err) {
+    console.error('Error updating power input:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
 
 
 
@@ -333,6 +362,7 @@ export default {
   updateIndicatorStatus,
   getPowerConsumption,
   updatePowerConsumption,
+  updatePowerInput,
   getMotorRpm,
   updateMotorRpm,
   updateMotorSpeedBar,

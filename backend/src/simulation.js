@@ -19,7 +19,7 @@ let initial_data = {
   infoTiles: supabaseService.infoTiles,
   gaugeData: supabaseService.gaugeData,
   motorSpeed: supabaseService.motorSpeed,
-}
+  };
 
 function setState(newState) {
   initial_data = newState;
@@ -44,7 +44,34 @@ function simulateVehicleBehavior(data) {
 
   // change motor indicator if rpm is
   motorIndicatorChangeLogic(new_data);
+  lowBatteryIndicatorChangeLogic(new_data);
+  powerConsumptionLogic(new_data);
 }
+
+function powerConsumptionLogic(new_data) {
+  let powerConsumption = new_data.gaugeData.power_consumption;
+  let motorRpm = new_data.gaugeData.motor_rpm;
+  const powerConsumptionPerRpm = 0.1;
+  let calculatedPowerConsumption = motorRpm * powerConsumptionPerRpm;
+
+  if (powerConsumption !== calculatedPowerConsumption) {
+    apiControllers.updatePowerConsumption(vehicleId, calculatedPowerConsumption);
+  }
+}
+
+function lowBatteryIndicatorChangeLogic(new_data) {
+  let batteryPercentage = new_data.infoTiles.battery_percentage;
+  let isBatteryLow = new_data.indicators.battery_low;
+  let threshold = 20;
+
+  if (batteryPercentage <= threshold && !isBatteryLow) {
+    apiControllers.updateIndicatorStatus(vehicleId, 'battery_low', 'true');
+  } else if (batteryPercentage > threshold && isBatteryLow) {
+    apiControllers.updateIndicatorStatus(vehicleId, 'battery_low', 'false');
+  }
+}
+
+
 
 // function startSimulation() {
 //   setInterval(() => {
