@@ -19,7 +19,7 @@ const Gauge = ({ vehicleId, units, majorTicks, minValue, maxValue }) => {
   if (units === "kW") {
     value = allData.gaugeData.power_consumption;
   } else if (units === "RPM") {
-    value = allData.gaugeData.motor_rpm;
+    value = allData.gaugeData.wheel_speed;
   }
 
   let minValueDigitCount = Math.abs(minValue).toString().length;
@@ -73,6 +73,7 @@ const Gauge = ({ vehicleId, units, majorTicks, minValue, maxValue }) => {
               fontSize: "30px",
             },
             formatTextValue: (value) => `${value}\n${units}`,
+            maxDecimalDigits: 0,
           },
           tickLabels: {
             type: "outer",

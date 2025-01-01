@@ -17,7 +17,7 @@ export function useSupabaseService(vehicleId) {
     indicators: supabaseService.indicators,
     infoTiles: supabaseService.infoTiles,
     gaugeData: supabaseService.gaugeData,
-    motorSpeed: supabaseService.motorSpeed,
+    sliderValue: supabaseService.sliderValue,
   });
 
   useEffect(() => {

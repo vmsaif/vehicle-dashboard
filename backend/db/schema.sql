@@ -45,7 +45,9 @@ CREATE TABLE IF NOT EXISTS motor (
 CREATE TABLE IF NOT EXISTS gear (
     id SERIAL PRIMARY KEY,
     vehicle_id INTEGER NOT NULL REFERENCES vehicle(id),
-    ratio NUMERIC(5, 2) NOT NULL -- 5 digits, 2 decimal places
+    ratio ratio_numerator INTEGER NOT NULL,
+    ratio_denominator INTEGER NOT NULL,
+    wheel_rpm INTEGER NUMERIC(5, 2) NOT NULL -- 5 digits, 2 decimal places
 );
 
 -- Create Power Table
@@ -53,7 +55,7 @@ CREATE TABLE IF NOT EXISTS power (
     id SERIAL PRIMARY KEY,
     vehicle_id INTEGER NOT NULL REFERENCES vehicle(id),
     power_consumption NUMERIC(10, 2) NOT NULL, -- 10 digits, 2 decimal places
-    power_input NUMERIC(10, 2) NOT NULL -- 10 digits, 2 decimal places
+    charge_input NUMERIC(10, 2) NOT NULL -- 10 digits, 2 decimal places
 );
 
 

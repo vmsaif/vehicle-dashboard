@@ -55,6 +55,15 @@ export async function updateIndicatorStatus(vehicleId, field, value) {
   return sendPostRequest(url, data);
 }
 
+export async function updateWheelRpm(vehicleId, wheelRpm) {
+  const url = 'http://localhost:3001/api/gear-wheel-rpm';
+  const data = {
+    vehicle_id: vehicleId,
+    wheel_rpm: wheelRpm,
+  };
+  return sendPostRequest(url, data);
+}
+
 export async function updateMotorRpm(vehicleId, rpm) {
   const url = 'http://localhost:3001/api/motor-rpm';
   const data = {
@@ -64,20 +73,6 @@ export async function updateMotorRpm(vehicleId, rpm) {
   return sendPostRequest(url, data);
 }
 
-/**
- * Updates the gear ratio for a vehicle.
- * @param {number} vehicleId - The ID of the vehicle.
- * @param {string} ratio - The new gear ratio.
- * @returns {Promise<object>} - The response data from the server.
- */
-export async function updateGearRatio(vehicleId, ratio) {
-  const url = 'http://localhost:3001/api/gear-ratio';
-  const data = {
-    vehicle_id: vehicleId,
-    ratio: ratio,
-  };
-  return sendPostRequest(url, data);
-}
 
 /**
  * Updates the motor speed for a vehicle.
@@ -114,7 +109,7 @@ export async function updatePowerInput(vehicleId, powerInput) {
   const url = 'http://localhost:3001/api/power-consumption';
   const data = {
     vehicle_id: vehicleId,
-    power_input: powerInput
+    charge_input: powerInput
   };
   return sendPostRequest(url, data);
 }

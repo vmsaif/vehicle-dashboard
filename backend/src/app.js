@@ -29,11 +29,14 @@ app.post('/api/indicator-status', dataController.updateIndicatorStatus); // Rout
 // Route to power consumption
 app.get('/api/power-consumption', dataController.getPowerConsumption); // Route to get power consumption from the database
 app.post('/api/power-consumption', dataController.updatePowerConsumption); // Route to update power consumption in the database
-app.post('/api/power-input', dataController.updatePowerInput); // Route to update power input in the database
+app.post('/api/charge-input', dataController.updateChargeInput); // Route to update power input in the database
 
 // Route to Motor Speed settings
 app.get('/api/motor-rpm', dataController.getMotorRpm); // Route to get Motor Speed from the database
 app.post('/api/motor-rpm', dataController.updateMotorRpm); // Route to update Motor Speed in the database
+
+// Route to Motor Speed Bar
+app.get('/api/motor-speed-bar', dataController.getMotorSpeedBar); // Route to get Motor Speed from the database
 app.post('/api/motor-speed-bar', dataController.updateMotorSpeedBar); // Route to update Motor Speed in the database
 
 // Route to Battery
@@ -43,7 +46,7 @@ app.post('/api/battery', dataController.updateBattery); // Route to update Batte
 // Route to Gear Ratio
 app.get('/api/gear-ratio', dataController.getGearRatio); // Route to get Gear Ratio from the database
 app.post('/api/gear-ratio', dataController.updateGearRatio); // Route to update Gear Ratio in the database
-
+app.post('/api/gear-wheel-rpm', dataController.updateGearWheelRpm); // Route to update Gear Wheel RPM in the database
 // Create HTTP server and WebSocket server
 const server = createServer(app);
 const wss = new WebSocketServer({ server });

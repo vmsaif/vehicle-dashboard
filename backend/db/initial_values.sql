@@ -25,4 +25,4 @@ INSERT INTO motor (vehicle_id, rpm, speed_setting) VALUES (1, 0, 0);
 INSERT INTO gear (vehicle_id, ratio) VALUES (1, 0.00);
 
 -- power table
-INSERT INTO power (vehicle_id, power_consumption, power_input) VALUES (1, 0.00, 0.00);
+INSERT INTO power (vehicle_id, power_consumption, charge_input) VALUES (1, 0.00, 0.00);

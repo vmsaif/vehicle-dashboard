@@ -11,11 +11,11 @@ set -e
 
 # ------------------- test the power Gauge -------------------
 echo "Testing power gauge value of 501"
-./post_requests.sh power power_consumption 501 power_input 200
+./post_requests.sh power power_consumption 501 charge_input 200
 sleep 2
 
 echo "Testing power gauge value of -320"
-./post_requests.sh power power_consumption -320 power_input 200
+./post_requests.sh power power_consumption -320 charge_input 200
 sleep 2
 
 echo "Testing motor rpm and speed setting values of 100 and 200"

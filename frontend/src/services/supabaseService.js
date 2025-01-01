@@ -26,9 +26,9 @@ class SupabaseService {
     };
     this.gaugeData = {
       power_consumption: Number.MIN_SAFE_INTEGER,
-      motor_rpm: Number.MIN_SAFE_INTEGER,
+      wheel_speed: Number.MIN_SAFE_INTEGER,
     };
-    this.motorSpeed = 0;
+    this.sliderValue = 0;
     this.subscribers = [];
     this.subscribed = false;
   }
@@ -43,7 +43,7 @@ class SupabaseService {
 
       const { data: gearData, error: gearError } = await supabase
         .from('gear')
-        .select('ratio')
+        .select('ratio_numerator, ratio_denominator, wheel_rpm')
         .eq('vehicle_id', vehicleId)
         .single();
 
@@ -61,7 +61,7 @@ class SupabaseService {
 
       const { data: powerData, error: powerError } = await supabase
         .from('power')
-        .select('power_consumption, power_input')
+        .select('power_consumption, charge_input')
         .eq('vehicle_id', vehicleId)
         .single();
 
@@ -72,16 +72,16 @@ class SupabaseService {
       this.indicators = indicatorsData;
       console.log('charging:' + this.indicators.is_charging);
       this.infoTiles = {
-        gear_ratio: gearData ? gearData.ratio : 'N/N',
+        gear_ratio: gearData ? `${gearData.ratio_numerator}/${gearData.ratio_denominator}` : 'N/N',
         battery_percentage: batteryData ? batteryData.percentage : 0,
         battery_temperature: batteryData ? batteryData.temperature : 0,
         motor_rpm: motorData ? motorData.rpm : 0,
       };
       this.gaugeData = {
         power_consumption: powerData ? powerData.power_consumption : 0,
-        motor_rpm: motorData ? motorData.rpm : 0,
+        wheel_speed: gearData ? gearData.wheel_rpm : 0,
       };
-      this.motorSpeed = motorData ? motorData.speed_setting : 0;
+      this.sliderValue = motorData ? motorData.speed_setting : 0;
 
       this.notifySubscribers();
     } catch (error) {
@@ -95,12 +95,6 @@ class SupabaseService {
       this.subscribed = true;
     }
     this.subscribers.push(callback);
-    callback({
-      indicators: this.indicators,
-      infoTiles: this.infoTiles,
-      gaugeData: this.gaugeData,
-      motorSpeed: this.motorSpeed,
-    });
   }
 
   unsubscribe(callback) {
@@ -112,7 +106,7 @@ class SupabaseService {
       indicators: this.indicators,
       infoTiles: this.infoTiles,
       gaugeData: this.gaugeData,
-      motorSpeed: this.motorSpeed,
+      sliderValue: this.sliderValue,
     }));
   }
 

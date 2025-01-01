@@ -127,13 +127,13 @@ async function updatePowerConsumption(req, res) {
   }
 }
 
-async function updatePowerInput(req, res) {
-  const { vehicle_id, power_input } = req.body;
+async function updateChargeInput(req, res) {
+  const { vehicle_id, charge_input } = req.body;
   try {
     // Update the power input in the database
     const { data, error } = await supabase
       .from('power')
-      .update({ power_input })
+      .update({ charge_input })
       .eq('vehicle_id', vehicle_id)
       .select();
 
@@ -154,9 +154,6 @@ async function updatePowerInput(req, res) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }
-
-
-
 
 /**
  * Fetches the current motor RPM.
@@ -250,6 +247,26 @@ async function updateMotorSpeedBar(req, res) {
   }
 }
 
+async function getMotorSpeedBar(req, res) {
+  try {
+    // Fetch motor speed from the database
+    const { data, error } = await supabase
+      .from('motor')
+      .select('speed_setting');
+
+    if (error) {
+      throw error;
+    }
+
+    // Return the motor speed data
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).send(JSON.stringify(data, null, 2));
+  } catch (err) {
+    console.error('Error fetching motor speed:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
 /**
  * Fetches the current battery data.
  * @param {Request} req The request object.
@@ -329,13 +346,41 @@ async function getGearRatio(req, res) {
   }
 }
 
+async function updateGearWheelRpm(req, res) {
+  const { vehicle_id, wheel_rpm } = req.body;
+  try {
+    // Update the wheel RPM in the database
+    const { data, error } = await supabase
+      .from('gear')
+      .update({ wheel_rpm })
+      .eq('vehicle_id', vehicle_id)
+      .select();
+
+    if (error) {
+      throw error;
+    }
+
+    if (data.length === 0) {
+      return res.status(404).json({ error: 'Gear data not found' });
+    }
+
+    // Return the updated wheel RPM data
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).send(JSON.stringify(data[0], null, 2) + '\n');
+
+  } catch (err) {
+    console.error('Error updating wheel RPM:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
 async function updateGearRatio(req, res) {
-  const { vehicle_id, ratio } = req.body;
+  const { vehicle_id, ratio_numerator, ratio_denominator } = req.body;
   try {
     // Update the gear ratio in the database
     const { data, error } = await supabase
       .from('gear')
-      .update({ ratio })
+      .update({ ratio_numerator, ratio_denominator })
       .eq('vehicle_id', vehicle_id)
       .select();
 
@@ -362,12 +407,14 @@ export default {
   updateIndicatorStatus,
   getPowerConsumption,
   updatePowerConsumption,
-  updatePowerInput,
+  updateChargeInput,
   getMotorRpm,
   updateMotorRpm,
+  getMotorSpeedBar,
   updateMotorSpeedBar,
   getBattery,
   updateBattery,
   getGearRatio,
-  updateGearRatio
+  updateGearRatio,
+  updateGearWheelRpm
 };

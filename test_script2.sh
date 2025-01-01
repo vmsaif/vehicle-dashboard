@@ -42,11 +42,11 @@ sleep 2
 
 # ------------------- test the power -------------------
 echo "Testing power consumption and input values of 100 and 200"
-./post_requests.sh power power_consumption 100 power_input 200
+./post_requests.sh power power_consumption 100 charge_input 200
 sleep 2
 
 echo "Testing power consumption and input values of 534 and 674"
-./post_requests.sh power power_consumption 534 power_input 674
+./post_requests.sh power power_consumption 534 charge_input 674
 sleep 2
 
 # ------------------- test the motor -------------------

@@ -10,32 +10,42 @@
  */
 
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import '../../styles/Controls.css'; // Import the CSS file
+import { useSupabaseService } from '../../hooks/useSupabaseService.js';
 
 function Controls({ vehicleId }) {
-  const [speedSetting, setSpeedSetting] = useState(0);
+  const allData = useSupabaseService(vehicleId);
+  let sliderValue = parseInt(allData.sliderValue);
+  const [speedSetting, setSpeedSetting] = useState(sliderValue);
+
+  useEffect(() => {
+    if (allData && sliderValue !== undefined) {
+      setSpeedSetting(parseInt(allData.sliderValue));
+    }
+  }, [allData]);
 
   const handleSpeedChange = (event) => {
     const newSpeed = event.target.value;
     setSpeedSetting(newSpeed);
     console.log('New speed:', newSpeed);
 
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/motor-speed`, {
+    // Update the motor speed setting to the backend server
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/motor-speed-bar`, {
       method: 'POST',
       headers: {
-      'Content-Type': 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-      vehicle_id: parseInt(vehicleId, 10),
-      speed_setting: parseInt(newSpeed, 10),
+        vehicle_id: parseInt(vehicleId, 10),
+        speed_setting: parseInt(newSpeed, 10),
       }),
     })
     .then(response => {
       if (response.status === 200) {
-      return response.json();
+        return response.json();
       } else {
-      throw new Error('Failed to update speed');
+        throw new Error('Failed to update speed');
       }
     })
     .then(data => {
