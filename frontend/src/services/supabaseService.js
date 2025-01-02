@@ -29,6 +29,8 @@ class SupabaseService {
       wheel_speed: Number.MIN_SAFE_INTEGER,
     };
     this.sliderValue = 0;
+    this.battery_capacity = 0;
+    this.charge_input = 0;
     this.subscribers = [];
     this.subscribed = false;
   }
@@ -49,7 +51,7 @@ class SupabaseService {
 
       const { data: batteryData, error: batteryError } = await supabase
         .from('battery')
-        .select('percentage, temperature')
+        .select('capacity, percentage, temperature')
         .eq('vehicle_id', vehicleId)
         .single();
 
@@ -70,7 +72,6 @@ class SupabaseService {
       }
 
       this.indicators = indicatorsData;
-      console.log('charging:' + this.indicators.is_charging);
       this.infoTiles = {
         gear_ratio: gearData ? `${gearData.ratio_numerator}/${gearData.ratio_denominator}` : 'N/N',
         battery_percentage: batteryData ? batteryData.percentage : 0,
@@ -82,7 +83,8 @@ class SupabaseService {
         wheel_speed: gearData ? gearData.wheel_rpm : 0,
       };
       this.sliderValue = motorData ? motorData.speed_setting : 0;
-
+      this.charge_input = powerData ? powerData.charge_input : 0;
+      this.battery_capacity = batteryData ? batteryData.capacity : 0;
       this.notifySubscribers();
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -107,6 +109,8 @@ class SupabaseService {
       infoTiles: this.infoTiles,
       gaugeData: this.gaugeData,
       sliderValue: this.sliderValue,
+      charge_input: this.charge_input,
+      battery_capacity: this.battery_capacity,
     }));
   }
 

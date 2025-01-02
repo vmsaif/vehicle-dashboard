@@ -105,14 +105,7 @@ export async function updatePowerConsumption(vehicleId, powerConsumption) {
   return sendPostRequest(url, data);
 }
 
-export async function updatePowerInput(vehicleId, powerInput) {
-  const url = 'http://localhost:3001/api/power-consumption';
-  const data = {
-    vehicle_id: vehicleId,
-    charge_input: powerInput
-  };
-  return sendPostRequest(url, data);
-}
+
 
 /**
  * Updates the motor speed and RPM for a vehicle.
@@ -138,11 +131,20 @@ export async function updateMotorSpeedRpm(vehicleId, rpm, speedSetting) {
  * @param {number} temperature - The new battery temperature.
  * @returns {Promise<object>} - The response data from the server.
  */
-export async function updateBatteryStatus(vehicleId, percentage, temperature) {
-  const url = 'http://localhost:3001/api/battery';
+export async function updateBatteryPercentage(vehicleId, percentage, temperature) {
+  const url = 'http://localhost:3001/api/battery-percentage';
   const data = {
     vehicle_id: vehicleId,
     percentage: percentage,
+    temperature: temperature,
+  };
+  return sendPostRequest(url, data);
+}
+
+export async function updateBatteryTemperature(vehicleId, temperature) {
+  const url = 'http://localhost:3001/api/battery-temperature';
+  const data = {
+    vehicle_id: vehicleId,
     temperature: temperature,
   };
   return sendPostRequest(url, data);

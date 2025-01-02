@@ -41,7 +41,9 @@ app.post('/api/motor-speed-bar', dataController.updateMotorSpeedBar); // Route t
 
 // Route to Battery
 app.get('/api/battery', dataController.getBattery); // Route to get Battery from the database
-app.post('/api/battery', dataController.updateBattery); // Route to update Battery in the database
+app.post('/api/battery-percentage', dataController.updateBatteryPercentage); // Route to update Battery in the database
+app.post('/api/battery-temperature', dataController.updateBatteryTemperature); // Route to update Battery Temperature in the database
+app.post('/api/battery-capacity', dataController.updateBatteryCapacity); // Route to update Battery Capacity in the database
 
 // Route to Gear Ratio
 app.get('/api/gear-ratio', dataController.getGearRatio); // Route to get Gear Ratio from the database

@@ -292,19 +292,46 @@ async function getBattery(req, res) {
   }
 }
 
+async function updateBatteryCapacity(req, res) {
+  const { vehicle_id, capacity } = req.body;
+  try {
+    // Update the battery capacity in the database
+    const { data, error } = await supabase
+      .from('battery')
+      .update({ capacity })
+      .eq('vehicle_id', vehicle_id)
+      .select();
+
+    if (error) {
+      throw error;
+    }
+
+    if (data.length === 0) {
+      return res.status(404).json({ error: 'Battery data not found' });
+    }
+
+    // Return the updated battery capacity data
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).send(JSON.stringify(data[0], null, 2) + '\n');
+
+  } catch (err) {
+    console.error('Error updating battery capacity:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
 /**
  * Updates the battery data.
  * @param {Request} req The request object.
  * @param {Response} res The response object.
  */
-async function updateBattery(req, res) {
-  const { vehicle_id, percentage, temperature } = req.body;
+async function updateBatteryPercentage(req, res) {
+  const { vehicle_id, percentage } = req.body;
   try {
     // Update the battery data in the database
-    console.log('trying to update battery data with:', vehicle_id, percentage, temperature);
     const { data, error } = await supabase
       .from('battery')
-      .update({ percentage, temperature })
+      .update({ percentage })
       .eq('vehicle_id', vehicle_id)
       .select();
 
@@ -317,11 +344,40 @@ async function updateBattery(req, res) {
     }
 
     // Return the updated battery data
+    // res.setHeader('Content-Type', 'application/json');
+    res.status(200);
+    // .send(JSON.stringify(data[0], null, 2) + '\n');
+
+  } catch (err) {
+    console.error('Error updating battery data:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+async function updateBatteryTemperature(req, res) {
+  const { vehicle_id, temperature } = req.body;
+  try {
+    // Update the battery temperature in the database
+    const { data, error } = await supabase
+      .from('battery')
+      .update({ temperature })
+      .eq('vehicle_id', vehicle_id)
+      .select();
+
+    if (error) {
+      throw error;
+    }
+
+    if (data.length === 0) {
+      return res.status(404).json({ error: 'Battery data not found' });
+    }
+
+    // Return the updated battery temperature data
     res.setHeader('Content-Type', 'application/json');
     res.status(200).send(JSON.stringify(data[0], null, 2) + '\n');
 
   } catch (err) {
-    console.error('Error updating battery data:', err);
+    console.error('Error updating battery temperature:', err);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }
@@ -413,7 +469,9 @@ export default {
   getMotorSpeedBar,
   updateMotorSpeedBar,
   getBattery,
-  updateBattery,
+  updateBatteryCapacity,
+  updateBatteryPercentage,
+  updateBatteryTemperature,
   getGearRatio,
   updateGearRatio,
   updateGearWheelRpm

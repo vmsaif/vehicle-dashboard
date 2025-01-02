@@ -27,8 +27,9 @@ function InfoTile ({ vehicleId, value, label }) {
     value = infoTiles.gear_ratio;
   } else if (label === "%") {
     image = batteryLow;
-    value = infoTiles.battery_percentage;
-  } else if (label === "°C") {
+    let valueWithDecimal = infoTiles.battery_percentage
+    value = Math.floor(valueWithDecimal);
+    } else if (label === "°C") {
     image = batteryTemp;
     value = infoTiles.battery_temperature;
     fontMargin = "-ml-4";
