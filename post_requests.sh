@@ -51,6 +51,16 @@ if [ "$TYPE" == "charge_input" ]; then
     }"
 fi
 
+if [ "$TYPE" == "temperature" ]; then
+  # Send the POST request using curl
+  curl -X POST http://localhost:3001/api/battery-temperature \
+    -H "Content-Type: application/json" \
+    -d "{
+      \"vehicle_id\": 1,
+      \"temperature\": $FIELD
+    }"
+fi
+
 if [ "$TYPE" == "gear_ratio" ]; then
   # Send the POST request using curl
   if [ "$#" -ne 3 ]; then

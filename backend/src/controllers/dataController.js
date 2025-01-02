@@ -373,8 +373,9 @@ async function updateBatteryTemperature(req, res) {
     }
 
     // Return the updated battery temperature data
-    res.setHeader('Content-Type', 'application/json');
-    res.status(200).send(JSON.stringify(data[0], null, 2) + '\n');
+    // res.setHeader('Content-Type', 'application/json');
+    res.status(200)
+    // .send(JSON.stringify(data[0], null, 2) + '\n');
 
   } catch (err) {
     console.error('Error updating battery temperature:', err);

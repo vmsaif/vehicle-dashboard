@@ -45,8 +45,8 @@ function simulateVehicleBehavior(data) {
   chargingLogic(new_data);
   batteryTemperatureLogic(new_data);
   motorRpmLogic(new_data);
-  // wheelRPMLogic(new_data);
-  // batteryDrainLogic(new_data);
+  wheelRPMLogic(new_data);
+  batteryDrainLogic(new_data);
 
 }
 
@@ -56,12 +56,6 @@ function batteryTemperatureLogic(new_data) {
 
   // the second way is based on the power consumption. more power consumption will increase the temperature and negative power consumption will decrease the temperature
 
-  const chargingIncreaseRate = 0.2; // degrees per second
-  const dischargingDecreaseRate = -0.1; // degrees per second
-  const powerConsumptionRate = 0.05; // degrees per kW per second
-  const batteryMinRoomTemp = 20; // degrees
-
-  let batteryTemperature = new_data.infoTiles.battery_temperature;
   let timeUnit = 1000; // 1 second
 
   // Clear any existing battery temperature interval
@@ -70,9 +64,33 @@ function batteryTemperatureLogic(new_data) {
   }
 
   batteryTemperatureInterval = setInterval(() => {
+    let batteryMaxTemp;
+
+    const chargingIncreaseRate = 0.2; // degrees per second
+    const dischargingDecreaseRate = -0.1; // degrees per second
+    const powerConsumptionRate = 0.005; // degrees per kW per second
+    const batteryMinRoomTemp = 20; // degrees
+
+    let motorRpm = new_data.infoTiles.motor_rpm;
+    let maxChargingTemp = 45;
+
     let isCharging = new_data.indicators.is_charging;
     let powerConsumption = new_data.gaugeData.power_consumption; // in kW
     let temperatureChangeRate;
+
+
+    let batteryTemperature = new_data.infoTiles.battery_temperature;
+
+
+    if (motorRpm !== 0) {
+      batteryMaxTemp = batteryMinRoomTemp + (motorRpm / 20);
+    } else {
+      batteryMaxTemp = maxChargingTemp;
+    }
+
+    console.log('Battery max temp:', batteryMaxTemp);
+
+
     // Base temperature change rate
     if (isCharging){
 
@@ -95,6 +113,8 @@ function batteryTemperatureLogic(new_data) {
 
     if (calculatedBatteryTemperature < batteryMinRoomTemp) {
       calculatedBatteryTemperature = batteryMinRoomTemp;
+    } else if (calculatedBatteryTemperature > batteryMaxTemp) {
+      calculatedBatteryTemperature = batteryMaxTemp
     }
 
     console.log('Battery temperature from batteryTemperatureLogic:', calculatedBatteryTemperature);
@@ -110,11 +130,13 @@ function chargingLogic(new_data) {
   let timeUnit = 1000; // 1 second
   let powerConsumption = new_data.gaugeData.power_consumption; // in kW
   let charge_input = new_data.charge_input; // in kW
+
+  // Clear any existing charging interval
+  if (chargingInterval) {
+    clearInterval(chargingInterval);
+  }
+
   if (isCharging) {
-    // Clear any existing charging interval
-    if (chargingInterval) {
-      clearInterval(chargingInterval);
-    }
 
     // set slider to 0
     if (sliderValue !== 0) {
@@ -126,16 +148,17 @@ function chargingLogic(new_data) {
       apiControllers.updatePowerConsumption(vehicleId, -charge_input);
     }
 
+
     // increase battery percentage
     chargingInterval = setInterval(() => {
       let batteryPercentage = new_data.infoTiles.battery_percentage;
-      if (batteryPercentage >= 100) {
+
+      if (batteryPercentage > 100) {
         batteryPercentage = 100;
-        clearInterval(chargingInterval); // Stop charging when battery is full
       } else {
         let chargingInput = new_data.charge_input; // measured in kw. For now, assuming this is the rate of charging in seconds
         let batteryCapacity = new_data.battery_capacity; // measured in Kwh
-        let calculatedBatteryPercentage = batteryPercentage + (chargingInput / batteryCapacity) * 100;
+        let calculatedBatteryPercentage = batteryPercentage + (chargingInput / batteryCapacity) * 10;
 
         if (calculatedBatteryPercentage > 100) {
           calculatedBatteryPercentage = 100;
@@ -148,11 +171,6 @@ function chargingLogic(new_data) {
         console.log('Battery percentage from chargingLogic:', calculatedBatteryPercentage);
       }
     }, timeUnit);
-  } else {
-    // Clear the interval if not charging
-    if (chargingInterval) {
-      clearInterval(chargingInterval);
-    }
   }
 }
 
@@ -160,9 +178,16 @@ function motorRpmLogic(new_data) {
   let sliderValue = new_data.sliderValue; // 0 to 4 the slider value
   let motorSpecsConstant = 225;
   let motorRpm = sliderValue * motorSpecsConstant;
+  let batteryPercentage = new_data.infoTiles.battery_percentage;
 
-  if (new_data.infoTiles.motor_rpm !== motorRpm) {
-    apiControllers.updateMotorRpm(vehicleId, motorRpm);
+  if (batteryPercentage > 0) {
+    if (new_data.infoTiles.motor_rpm !== motorRpm) {
+      apiControllers.updateMotorRpm(vehicleId, motorRpm);
+    }
+  } else {
+    if (new_data.infoTiles.motor_rpm !== 0) {
+      apiControllers.updateMotorRpm(vehicleId, 0);
+    }
   }
 }
 
@@ -226,13 +251,13 @@ function batteryDrainLogic(new_data) {
   batteryDrainInterval = setInterval(() => {
     let batteryPercentage = new_data.infoTiles.battery_percentage;
     let calculatedBatteryPercentage = batteryPercentage;
-    const batteryDrainRatePerKw = 0.1; // Example rate: 0.1% per kW per second
-    const powerConsumption = new_data.infoTiles.power_consumption; // in kW
+    const batteryDrainRatePerKw = 0.001; // Example rate: 0.001% per kW per second
+    const powerConsumption = new_data.gaugeData.power_consumption; // in kW
 
     if (batteryPercentage > 0 && powerConsumption > 0) {
       calculatedBatteryPercentage -= powerConsumption * batteryDrainRatePerKw;
       if (calculatedBatteryPercentage < 0) calculatedBatteryPercentage = 0;
-
+      console.log('Battery percentage from batteryDrainLogic:', calculatedBatteryPercentage);
       apiControllers.updateBatteryPercentage(vehicleId, calculatedBatteryPercentage);
     }
   }, timeUnit); // Update every second

@@ -16,11 +16,13 @@ import { useSupabaseService } from '../../hooks/useSupabaseService.js';
 const Gauge = ({ vehicleId, units, majorTicks, minValue, maxValue }) => {
   let value = minValue;
   const allData = useSupabaseService(vehicleId);
+
   if (units === "kW") {
     value = allData.gaugeData.power_consumption;
   } else if (units === "RPM") {
     value = allData.gaugeData.wheel_speed;
   }
+
 
   let minValueDigitCount = Math.abs(minValue).toString().length;
   let margin_left = 0.13;

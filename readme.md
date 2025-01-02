@@ -1,18 +1,16 @@
 # Vehicle Dashboard
 ## Tech Stack
 | **Layer**             | **Technology**                 | **Purpose**                                  |
-|------------------------|------------------------------------------------------------------------------|
+|-----------------------|-------------------------------------------------------------------------------|
 | **Frontend**          | React with Vite                | Interactive UI for the dashboard             |
 | **Styling**           | Tailwind CSS                   | Responsive, modern design                    |
-| **Backend**           | Node.js + ws                   | API and WebSocket real-time communication    |
-| **Database**          | PostgreSQL                     | Relational database for telemetry data       |
+| **Backend**           | Node.js + WebSocket            | API and WebSocket real-time communication    |
+| **Database**          | PostgreSQL With Supabase       | Relational database for telemetry data       |
 | **Frontend Hosting**  | GitHub Pages                   | Host the React app                           |
 | **Backend Hosting**   | GCP Cloud Run                  | Host WebSocket backend                       |
-| **Database Hosting**  | GCP Cloud SQL                  | Managed PostgreSQL instance                  |
+| **Database Hosting**  | Supabase                       | Managed PostgreSQL instance                  |
 | **Version Control**   | GitHub                         | Code repository                              |
 | **Deployment CI/CD**  | GitHub Actions                 | Automate build and deployment workflows      |
-
-
 
 <!-- Installation -->
 ## Installation
