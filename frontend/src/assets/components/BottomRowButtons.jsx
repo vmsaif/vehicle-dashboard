@@ -6,7 +6,7 @@
  * @version:     0.1
  * @contact:     msaifofficial@gmail.com
  *
- * @description: description here
+ * @description: BottomRowButtons component for the vehicle dashboard.
  */
 
 import React from "react";

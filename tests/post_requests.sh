@@ -77,14 +77,20 @@ if [ "$TYPE" == "gear_ratio" ]; then
     }"
 fi
 
+if [ "$TYPE" == "check_engine" ]; then
+  # Send the POST request using curl
+  curl -X POST http://localhost:3001/api/indicator-status \
+    -H "Content-Type: application/json" \
+    -d "{
+      \"vehicle_id\": 1,
+      \"type\": \"check_engine\",
+      \"indicator\": $FIELD
+    }"
+fi
 
 
 
 if [ "$TYPE" == "indicator" ]; then
-  if [ "$FIELD" != "parking_brake" ] && [ "$FIELD" != "check_engine" ] && [ "$FIELD" != "motor_status" ] && [ "$FIELD" != "battery" ] && [ "$FIELD" != "is_charging" ]; then
-    echo "Invalid field. Available fields: parking_brake, check_engine, motor_status, battery, is_charging."
-    exit 1
-  fi
   # Send the POST request using curl
   echo "Sending POST request to update indicator status..."
   curl -X POST http://localhost:3001/api/indicator-status \
@@ -94,8 +100,9 @@ if [ "$TYPE" == "indicator" ]; then
       \"type\": \"$FIELD\",
       \"indicator\": \"$VALUE\"
     }"
+fi
 
-elif [ "$TYPE" == "rpm" ]; then
+if [ "$TYPE" == "rpm" ]; then
   if [ "$FIELD" != "rpm" ]; then
     echo "Invalid field. Available fields: rpm."
     exit 1
@@ -109,22 +116,11 @@ elif [ "$TYPE" == "rpm" ]; then
       \"$FIELD\": $VALUE
     }"
 
-elif [ "$TYPE" == "gear" ]; then
-  if [ "$FIELD" != "ratio" ]; then
-    echo "Invalid field. Available fields: ratio."
-    exit 1
-  fi
-  # Send the POST request using curl
-  echo "Sending POST request to update gear ratio..."
-  curl -X POST http://localhost:3001/api/gear-ratio \
-    -H "Content-Type: application/json" \
-    -d "{
-      \"vehicle_id\": 1,
-      \"$FIELD\": $VALUE
-    }"
-fi
+
   FIELD2=$4
   VALUE2=$5
+
+fi
 
   # Validate fields for each type
 

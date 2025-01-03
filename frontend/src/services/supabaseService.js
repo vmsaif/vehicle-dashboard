@@ -10,6 +10,9 @@
 import { supabase } from './supabaseClient';
 
 class SupabaseService {
+  /**
+   * Initializes a new instance of the SupabaseService class.
+   */
   constructor() {
     this.indicators = {
       parking_brake: false,
@@ -34,7 +37,11 @@ class SupabaseService {
     this.subscribers = [];
     this.subscribed = false;
   }
-
+  /**
+   * Fetches data from the Supabase database for a given vehicle ID.
+   * @param {number} vehicleId - The ID of the vehicle to fetch data for.
+   * @returns {Promise<void>}
+   */
   async fetchData(vehicleId) {
     try {
       const { data: indicatorsData, error: indicatorsError } = await supabase
@@ -91,6 +98,11 @@ class SupabaseService {
     }
   }
 
+  /**
+   * Subscribes to real-time updates from Supabase.
+   * @param {function} callback - The callback function to invoke when data is updated.
+   * @param {number} vehicleId - The ID of the vehicle to subscribe to.
+   */
   subscribe(callback, vehicleId) {
     if (!this.subscribed) {
       this.initSubscription(vehicleId);
@@ -99,10 +111,20 @@ class SupabaseService {
     this.subscribers.push(callback);
   }
 
+  /**
+   * Unsubscribes from real-time updates from Supabase.
+   * @param {function} callback - The callback function to unsubscribe.
+   * @returns {void}
+  */
   unsubscribe(callback) {
     this.subscribers = this.subscribers.filter(cb => cb !== callback);
   }
 
+  /**
+   * Notifies all subscribers of the latest data.
+   * @returns {void}
+   * @private
+  */
   notifySubscribers() {
     this.subscribers.forEach(callback => callback({
       indicators: this.indicators,
@@ -114,6 +136,11 @@ class SupabaseService {
     }));
   }
 
+  /**
+   * Initializes real-time subscriptions for a given vehicle ID.
+   * @param {number} vehicleId - The ID of the vehicle to subscribe to.
+   * @returns {void}
+   */
   initSubscription(vehicleId) {
     // Initialize real-time subscription for each table
     ['indicators', 'gear', 'battery', 'motor', 'power'].forEach(table => {
@@ -132,4 +159,5 @@ class SupabaseService {
   }
 }
 
+// Export a new instance of the SupabaseService class
 export const supabaseService = new SupabaseService();

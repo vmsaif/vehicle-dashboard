@@ -59,9 +59,8 @@ async function updateIndicatorStatus(req, res) {
       return res.status(404).json({ error: 'Indicator not found' });
     }
 
-    // Return the updated indicator status.(the headers are set to see the JSON response in the browser/terminal)
-    res.setHeader('Content-Type', 'application/json');
-    res.status(200).send(JSON.stringify(data[0], null, 2) + '\n');
+    // Return success message
+    res.status(200).json({ message: 'Indicator updated successfully' });
 
   } catch (err) {
     console.error('Error updating indicator status:', err);
@@ -239,7 +238,8 @@ async function updateMotorSpeedBar(req, res) {
 
     // Return the updated motor speed data
     res.setHeader('Content-Type', 'application/json');
-    res.status(200).send(JSON.stringify(data[0], null, 2) + '\n');
+    res.status(200)
+    // .send(JSON.stringify(data[0], null, 2) + '\n');
 
   } catch (err) {
     console.error('Error updating motor speed:', err);
@@ -247,6 +247,13 @@ async function updateMotorSpeedBar(req, res) {
   }
 }
 
+/**
+ * Fetches the current motor speed bar.
+ * @param {Request} req The request object.
+ * @param {Response} res The response object.
+ * @returns {Promise<void>}
+ *
+*/
 async function getMotorSpeedBar(req, res) {
   try {
     // Fetch motor speed from the database
@@ -292,6 +299,14 @@ async function getBattery(req, res) {
   }
 }
 
+/**
+ * Updates the battery capacity.
+ * @param {Request} req The request object.
+ * @param {Response} res The response object.
+ * @returns {Promise<void>}
+ *
+ */
+
 async function updateBatteryCapacity(req, res) {
   const { vehicle_id, capacity } = req.body;
   try {
@@ -311,8 +326,9 @@ async function updateBatteryCapacity(req, res) {
     }
 
     // Return the updated battery capacity data
-    res.setHeader('Content-Type', 'application/json');
-    res.status(200).send(JSON.stringify(data[0], null, 2) + '\n');
+    // res.setHeader('Content-Type', 'application/json');
+    res.status(200)
+    // .send(JSON.stringify(data[0], null, 2) + '\n');
 
   } catch (err) {
     console.error('Error updating battery capacity:', err);
@@ -321,7 +337,7 @@ async function updateBatteryCapacity(req, res) {
 }
 
 /**
- * Updates the battery data.
+ * Updates the battery percentage.
  * @param {Request} req The request object.
  * @param {Response} res The response object.
  */
@@ -344,9 +360,8 @@ async function updateBatteryPercentage(req, res) {
     }
 
     // Return the updated battery data
-    // res.setHeader('Content-Type', 'application/json');
-    res.status(200);
-    // .send(JSON.stringify(data[0], null, 2) + '\n');
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json(data[0]);
 
   } catch (err) {
     console.error('Error updating battery data:', err);
@@ -354,6 +369,11 @@ async function updateBatteryPercentage(req, res) {
   }
 }
 
+/**
+ * Updates the battery temperature.
+ * @param {Request} req The request object.
+ * @param {Response} res The response object.
+ */
 async function updateBatteryTemperature(req, res) {
   const { vehicle_id, temperature } = req.body;
   try {
@@ -372,17 +392,22 @@ async function updateBatteryTemperature(req, res) {
       return res.status(404).json({ error: 'Battery data not found' });
     }
 
-    // Return the updated battery temperature data
-    // res.setHeader('Content-Type', 'application/json');
-    res.status(200)
-    // .send(JSON.stringify(data[0], null, 2) + '\n');
+    // Return the updated battery data
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json(data[0]);
 
   } catch (err) {
-    console.error('Error updating battery temperature:', err);
+    console.error('Error updating battery data:', err);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }
 
+/**
+ * Fetches the current gear ratio.
+ * @param {Request} req The request object.
+ * @param {Response} res The response object.
+ * @returns {Promise<void>}
+ */
 async function getGearRatio(req, res) {
   try {
     // Fetch gear ratio from the database
@@ -403,6 +428,12 @@ async function getGearRatio(req, res) {
   }
 }
 
+/**
+ * Updates the wheel RPM of the gear.
+ * @param {Request} req The request object.
+ * @param {Response} res The response object.
+ * @returns {Promise<void>}
+ */
 async function updateGearWheelRpm(req, res) {
   const { vehicle_id, wheel_rpm } = req.body;
   try {
@@ -431,6 +462,12 @@ async function updateGearWheelRpm(req, res) {
   }
 }
 
+/**
+ * Updates the gear ratio.
+ * @param {Request} req The request object.
+ * @param {Response} res The response object.
+ * @returns {Promise<void>}
+ */
 async function updateGearRatio(req, res) {
   const { vehicle_id, ratio_numerator, ratio_denominator } = req.body;
   try {
@@ -459,6 +496,7 @@ async function updateGearRatio(req, res) {
   }
 }
 
+// Export the functions
 export default {
   getIndicatorStatus,
   updateIndicatorStatus,

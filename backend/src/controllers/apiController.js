@@ -9,6 +9,8 @@
  * @description: This file contains the API controller logic for the vehicle dashboard simulation.
  */
 
+import { fetch } from 'undici';
+
 /**
  * Sends a POST request to the specified URL with the given data.
  * @param {string} url - The URL to send the POST request to.
@@ -16,25 +18,41 @@
  * @returns {Promise<object>} - The response data from the server.
  */
 export async function sendPostRequest(url, data) {
-  try {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
+  const maxRetries = 3;
+  const retryDelay = 2000; // 2 seconds
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        // Increase the timeout settings
+        headersTimeout: 60000, // 60 seconds
+        bodyTimeout: 60000, // 60 seconds
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const responseData = await response.json();
+      return responseData;
+    } catch (error) {
+      console.error(`Attempt ${attempt} failed:`, error);
+      console.error(error.stack); // Print the traceback
+      console.log('Sending POST request to:', url);
+      console.log('With data:', data);
+      if (attempt < maxRetries) {
+        console.log(`Retrying in ${retryDelay / 1000} seconds...`);
+        await new Promise(resolve => setTimeout(resolve, retryDelay));
+      } else {
+        throw error;
+      }
     }
-
-    const responseData = await response.json();
-    console.log('Success:', responseData);
-    return responseData;
-  } catch (error) {
-    console.error('Error:', error);
-    throw error;
   }
 }
 
@@ -131,12 +149,11 @@ export async function updateMotorSpeedRpm(vehicleId, rpm, speedSetting) {
  * @param {number} temperature - The new battery temperature.
  * @returns {Promise<object>} - The response data from the server.
  */
-export async function updateBatteryPercentage(vehicleId, percentage, temperature) {
+export async function updateBatteryPercentage(vehicleId, percentage) {
   const url = 'http://localhost:3001/api/battery-percentage';
   const data = {
     vehicle_id: vehicleId,
     percentage: percentage,
-    temperature: temperature,
   };
   return sendPostRequest(url, data);
 }

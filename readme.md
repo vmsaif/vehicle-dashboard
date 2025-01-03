@@ -1,16 +1,86 @@
 # Vehicle Dashboard
+
+A real-time vehicle dashboard built with React, Express, and PostgreSQL. The dashboard displays telemetry data from a database and allows users to interact with the vehicle settings through API endpoints.
+
+The database has values which are used to render on the frontend.
+
 ## Tech Stack
+
 | **Layer**             | **Technology**                 | **Purpose**                                  |
-|-----------------------|-------------------------------------------------------------------------------|
+|-----------------------|--------------------------------|----------------------------------------------|
 | **Frontend**          | React with Vite                | Interactive UI for the dashboard             |
 | **Styling**           | Tailwind CSS                   | Responsive, modern design                    |
-| **Backend**           | Node.js + WebSocket            | API and WebSocket real-time communication    |
+| **Backend**           | Express.js + WebSocket         | API and WebSocket real-time communication    |
 | **Database**          | PostgreSQL With Supabase       | Relational database for telemetry data       |
 | **Frontend Hosting**  | GitHub Pages                   | Host the React app                           |
 | **Backend Hosting**   | GCP Cloud Run                  | Host WebSocket backend                       |
 | **Database Hosting**  | Supabase                       | Managed PostgreSQL instance                  |
 | **Version Control**   | GitHub                         | Code repository                              |
 | **Deployment CI/CD**  | GitHub Actions                 | Automate build and deployment workflows      |
+
+## Diagrams
+
+### System Overview
+
+First, the frontend fetches data from the database using API endpoints managed by the backend. The backend updates the database when the user interacts with the vehicle settings. The database sends real-time updates to the frontend.
+
+#### Diag 1:
+```mermaid
+graph TD
+    subgraph System
+        A[Frontend] -->|Fetch Data| B[Database]
+        B -->|Render Data| A
+        C[Backend]
+    end
+```
+
+The API endpoints are managed by the backend. When the user uses API endpoints to interact with the vehicle settings, The backend updates the database.
+
+#### Diag 2:
+```mermaid
+graph TD
+    subgraph System
+        A[Frontend]
+        B[Backend]
+        C[Database]
+        B -->|Update Database| C
+    end
+```
+
+After the database is updated, it sends a real-time update to the frontend using a WebSocket connection.
+
+#### Diag 3:
+```mermaid
+graph TD
+    subgraph System
+        A[Database] -->|I have changes| C[Frontend]
+        B[Backend]
+    end
+```
+
+Then the frontend updates the UI with the new data.
+
+The only input field on the frontend is the motor speed settings. When the user changes the motor speed settings, the frontend sends the new value to the backend, which updates the motor RPM in the database in real-time.
+
+#### Diag 4:
+```mermaid
+graph TD
+    subgraph System
+        A[Frontend] -->|Send Motor Speed| B[Backend]
+        B -->|Update Motor Speed| C[Database]
+        C -->|I have new data| A
+    end
+```
+
+#### Diag 5:
+```mermaid
+graph TD
+    subgraph System
+        A[Frontend] -->|Send Motor Speed| B[Backend]
+        B -->|Update Motor Speed| C[Database]
+        C -->|I have new data| A
+    end
+```
 
 <!-- Installation -->
 ## Installation
@@ -20,6 +90,7 @@
 - Node.js
 - git
 - tailwindcss
+
 #### Install nvm
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
@@ -44,13 +115,14 @@ cd vehicle-dashboard
 ```bash
 cd frontend
 npm install
+```
 
 #### Create a .env file in the frontend directory and add the following line
 
 ```bash
-echo "VITE_BACKEND_URL=http://localhost:3001" > .env
+echo "VITE_BACKEND_URL=http://localhost:3001 \nVITE_SUPABASE_URL= \nVITE_SUPABASE_ANON_KEY" > .env
 ```
-Replace the URL with the backend URL
+Replace the `http://localhost:3001` with the backend URL
 
 #### Backend
 
@@ -58,38 +130,20 @@ Replace the URL with the backend URL
 cd ../backend
 npm install
 ```
-
-## API to change the top row indicators
-
-The indicators can be changed directly by sending a POST request to the API endpoint
+#### Create a .env file in the backend directory and add the following line
 
 ```bash
-curl -X POST http://localhost:3001/api/indicator-status \
-  -H "Content-Type: application/json" \
-  -d '{
-    "vehicle_id": 1,
-    "type": "motor_status",
-    "indicator": false
-  }'
+echo -e "SUPABASE_URL= \nSUPABASE_ANON_KEY= " > .env
 ```
 
-To make things easier, a simple script has been added to change the indicators.
+Replace the `SUPABASE_URL` and `SUPABASE_ANON_KEY` with the Supabase URL and Anon Key
 
-```bash
-# ./send-indicator.sh <type> <indicator Boolean>
-./post_requests.sh parking_brake true
-```
-
-Available possible values for type are:
-- parking_brake
-- check_engine
-- motor_status
-- battery_low
-
-And the indicator can be either true or false
 
 
 ### Install tailwindcss by following the instructions [here](https://tailwindcss.com/docs/guides/vite)
+
+### Usage
+Please refer to the [usage documentation](docs/usage.md) for detailed instructions on how to use the dashboard.
 
 ## Assets and Resources
 - Extracted Icons from the provided PDF.

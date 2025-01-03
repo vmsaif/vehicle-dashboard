@@ -10,8 +10,13 @@
  */
 
 import { useEffect, useState } from 'react';
-import { supabaseService } from '../services/supabaseService';
+import { supabaseService } from '../services/supabaseService.js';
 
+/**
+ * Custom hook for fetching vehicle indicators.
+ * @param {number} vehicleId - The ID of the vehicle to fetch indicators for.
+ * @returns {object} - The vehicle indicators.
+ */
 export function useSupabaseService(vehicleId) {
   const [data, setData] = useState({
     indicators: supabaseService.indicators,
@@ -25,6 +30,7 @@ export function useSupabaseService(vehicleId) {
       setData(newData);
     };
 
+    // Subscribe to updates
     supabaseService.subscribe(updateData, vehicleId);
 
     // Fetch initial data
