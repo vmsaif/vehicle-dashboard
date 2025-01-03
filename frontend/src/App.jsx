@@ -9,7 +9,6 @@
  * @description: Main entry point for the vehicle dashboard.
  */
 
-    console.log("Hello, World!");
 
 import './styles/App.css'
 import Dashboard from './assets/components/Dashboard'
