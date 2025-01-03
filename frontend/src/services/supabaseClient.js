@@ -12,13 +12,13 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseKey = import.meta.env.VITE_SUPABASE_SERVICE_KEY;
+const vite_supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const vite_supabaseKey = import.meta.env.VITE_SUPABASE_SERVICE_KEY;
 
 let supabase;
 
 try {
-  supabase = createClient(supabaseUrl, supabaseKey);
+  supabase = createClient(vite_supabaseUrl, vite_supabaseKey);
   console.log('Supabase client created successfully');
 } catch (error) {
   console.error('Error creating Supabase client:', error);
