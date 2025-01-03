@@ -56,3 +56,4 @@ jobs:
           external_repository: vmsaif/vehicle-dashboard-static-frontend
           publish_branch: main
           disable_nojekyll: true
+          force_orphan: true
