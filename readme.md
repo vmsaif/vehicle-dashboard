@@ -4,6 +4,9 @@ A real-time vehicle dashboard built with React, Express, and PostgreSQL. The das
 
 The database has values which are used to render on the frontend.
 
+# Static Website Link:
+[Vehicle Dashboard (https://vmsaif.github.io/vehicle-dashboard/)](https://vmsaif.github.io/vehicle-dashboard/)
+
 ## Tech Stack
 
 | **Layer**             | **Technology**                 | **Purpose**                                  |
@@ -13,7 +16,7 @@ The database has values which are used to render on the frontend.
 | **Backend**           | Express.js + WebSocket         | API and WebSocket real-time communication    |
 | **Database**          | PostgreSQL With Supabase       | Relational database for telemetry data       |
 | **Frontend Hosting**  | GitHub Pages                   | Host the React app                           |
-| **Backend Hosting**   | GCP Cloud Run                  | Host WebSocket backend                       |
+| **Backend Hosting**   | Amazon AWS EC2 instance        | Host WebSocket, express.js backend           |
 | **Database Hosting**  | Supabase                       | Managed PostgreSQL instance                  |
 | **Version Control**   | GitHub                         | Code repository                              |
 | **Deployment CI/CD**  | GitHub Actions                 | Automate build and deployment workflows      |
@@ -133,7 +136,7 @@ npm install
 #### Create a .env file in the backend directory and add the following line
 
 ```bash
-echo -e "SUPABASE_URL= \nSUPABASE_SERVICE_KEY= " > .env
+echo -e "SERVER_URL= \nSERVER_PORT= \nSUPABASE_URL= \nSUPABASE_SERVICE_KEY= " > .env
 ```
 
 Replace the `SUPABASE_URL` and `SUPABASE_SERVICE_KEY` with the Supabase URL and Anon Key
