@@ -1,0 +1,11 @@
+.charge-icon-button {
+  border-radius: 4px;
+  padding: 8px;
+  display: inline-block;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+}
+
+.charge-icon-button:active {
+  transform: scale(0.95);
+}

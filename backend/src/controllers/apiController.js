@@ -64,7 +64,7 @@ export async function sendPostRequest(url, data) {
  * @returns {Promise<object>} - The response data from the server.
  */
 export async function updateIndicatorStatus(vehicleId, field, value) {
-  const url = 'http://localhost:3001/api/indicator-status';
+  const url = `${process.env.SERVER_URL}:${process.env.SERVER_PORT}/api/indicator-status`;
   const data = {
     vehicle_id: vehicleId,
     type: field,
@@ -74,7 +74,7 @@ export async function updateIndicatorStatus(vehicleId, field, value) {
 }
 
 export async function updateWheelRpm(vehicleId, wheelRpm) {
-  const url = 'http://localhost:3001/api/gear-wheel-rpm';
+  const url = `${process.env.SERVER_URL}:${process.env.SERVER_PORT}/api/gear-wheel-rpm`;
   const data = {
     vehicle_id: vehicleId,
     wheel_rpm: wheelRpm,
@@ -83,7 +83,7 @@ export async function updateWheelRpm(vehicleId, wheelRpm) {
 }
 
 export async function updateMotorRpm(vehicleId, rpm) {
-  const url = 'http://localhost:3001/api/motor-rpm';
+  const url = `${process.env.SERVER_URL}:${process.env.SERVER_PORT}/api/motor-rpm`;
   const data = {
     vehicle_id: vehicleId,
     rpm: rpm,
@@ -99,7 +99,7 @@ export async function updateMotorRpm(vehicleId, rpm) {
  * @returns {Promise<object>} - The response data from the server.
  */
 export async function updateMotorSpeedBar(vehicleId, speed_setting) {
-  const url = 'http://localhost:3001/api/motor-speed-bar';
+  const url = `${process.env.SERVER_URL}:${process.env.SERVER_PORT}/api/motor-speed-bar`;
   const data = {
     vehicle_id: vehicleId,
     speed_setting: speed_setting,
@@ -115,7 +115,7 @@ export async function updateMotorSpeedBar(vehicleId, speed_setting) {
  * @returns {Promise<object>} - The response data from the server.
  */
 export async function updatePowerConsumption(vehicleId, powerConsumption) {
-  const url = 'http://localhost:3001/api/power-consumption';
+  const url = `${process.env.SERVER_URL}:${process.env.SERVER_PORT}/api/power-consumption`;
   const data = {
     vehicle_id: vehicleId,
     power_consumption: powerConsumption
@@ -133,7 +133,7 @@ export async function updatePowerConsumption(vehicleId, powerConsumption) {
  * @returns {Promise<object>} - The response data from the server.
  */
 export async function updateMotorSpeedRpm(vehicleId, rpm, speedSetting) {
-  const url = 'http://localhost:3001/api/motor-speed-rpm';
+  const url = `${process.env.SERVER_URL}:${process.env.SERVER_PORT}/api/motor-speed-rpm`;
   const data = {
     vehicle_id: vehicleId,
     rpm: rpm,
@@ -150,7 +150,7 @@ export async function updateMotorSpeedRpm(vehicleId, rpm, speedSetting) {
  * @returns {Promise<object>} - The response data from the server.
  */
 export async function updateBatteryPercentage(vehicleId, percentage) {
-  const url = 'http://localhost:3001/api/battery-percentage';
+  const url = `${process.env.SERVER_URL}:${process.env.SERVER_PORT}/api/battery-percentage`;
   const data = {
     vehicle_id: vehicleId,
     percentage: percentage,
@@ -159,7 +159,7 @@ export async function updateBatteryPercentage(vehicleId, percentage) {
 }
 
 export async function updateBatteryTemperature(vehicleId, temperature) {
-  const url = 'http://localhost:3001/api/battery-temperature';
+  const url = `${process.env.SERVER_URL}:${process.env.SERVER_PORT}/api/battery-temperature`;
   const data = {
     vehicle_id: vehicleId,
     temperature: temperature,

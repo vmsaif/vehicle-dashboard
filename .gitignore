@@ -6,3 +6,7 @@
 project_dir.md
 
 **/node_modules/
+
+# some test files
+test_get.sh
+test_post.sh

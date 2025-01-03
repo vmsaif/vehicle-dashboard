@@ -120,7 +120,7 @@ npm install
 #### Create a .env file in the frontend directory and add the following line
 
 ```bash
-echo "VITE_BACKEND_URL=http://localhost:3001 \nVITE_SUPABASE_URL= \nVITE_SUPABASE_ANON_KEY" > .env
+echo "VITE_BACKEND_URL=http://localhost:3001 \nVITE_SUPABASE_URL= \nVITE_SUPABASE_SERVICE_KEY" > .env
 ```
 Replace the `http://localhost:3001` with the backend URL
 
@@ -133,11 +133,32 @@ npm install
 #### Create a .env file in the backend directory and add the following line
 
 ```bash
-echo -e "SUPABASE_URL= \nSUPABASE_ANON_KEY= " > .env
+echo -e "SUPABASE_URL= \nSUPABASE_SERVICE_KEY= " > .env
 ```
 
-Replace the `SUPABASE_URL` and `SUPABASE_ANON_KEY` with the Supabase URL and Anon Key
+Replace the `SUPABASE_URL` and `SUPABASE_SERVICE_KEY` with the Supabase URL and Anon Key
 
+### Public Read Only Database
+
+
+
+#### Endpoint:
+- battery : https://kgvlvrvhrjgjtippbfxs.supabase.co/rest/v1/battery
+- gear: https://kgvlvrvhrjgjtippbfxs.supabase.co/rest/v1/gear
+- indicators: https://kgvlvrvhrjgjtippbfxs.supabase.co/rest/v1/indicators
+- motor: https://kgvlvrvhrjgjtippbfxs.supabase.co/rest/v1/motor
+- power: https://kgvlvrvhrjgjtippbfxs.supabase.co/rest/v1/power
+- vehicle: https://kgvlvrvhrjgjtippbfxs.supabase.co/rest/v1/vehicle
+
+Anon Public Key: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtndmx2cnZocmpnanRpcHBiZnhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU1ODE0NDcsImV4cCI6MjA1MTE1NzQ0N30.uX1R6dBNjMQfBOdD0NhL3BM86uDYVROkwK3EkA6PvB8`
+
+A simple command to fetch the data from the database:
+
+```bash
+curl "https://kgvlvrvhrjgjtippbfxs.supabase.co/rest/v1/battery" \
+  -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtndmx2cnZocmpnanRpcHBiZnhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU1ODE0NDcsImV4cCI6MjA1MTE1NzQ0N30.uX1R6dBNjMQfBOdD0NhL3BM86uDYVROkwK3EkA6PvB8" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtndmx2cnZocmpnanRpcHBiZnhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU1ODE0NDcsImV4cCI6MjA1MTE1NzQ0N30.uX1R6dBNjMQfBOdD0NhL3BM86uDYVROkwK3EkA6PvB8"
+```
 
 
 ### Install tailwindcss by following the instructions [here](https://tailwindcss.com/docs/guides/vite)

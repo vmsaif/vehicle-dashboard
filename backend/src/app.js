@@ -15,6 +15,9 @@ import { attachWebSocketServer } from './controllers/websocketController.js';
 import routes from './routes/routes.js';
 import { run } from './simulation.js';
 
+import dotenv from 'dotenv';
+dotenv.config();
+
 const app = express();
 
 // Middleware
@@ -32,9 +35,10 @@ const wss = new WebSocketServer({ server });
 attachWebSocketServer(wss);
 
 // Start the server
-const PORT = 3001;
+const PORT = process.env.SERVER_PORT || 3001;
 const vehicleId = 1;
 server.listen(PORT, () => {
-  console.log(`Backend server is running on http://localhost:${PORT}`);
+  const serverUrl = process.env.SERVER_URL || `http://localhost`;
+  console.log(`Backend server is running on ${serverUrl}:${PORT}`);
   run(vehicleId);
 });
