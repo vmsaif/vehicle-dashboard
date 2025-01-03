@@ -139,7 +139,7 @@ npm install
 echo -e "SERVER_URL= \nSERVER_PORT= \nSUPABASE_URL= \nSUPABASE_SERVICE_KEY= " > .env
 ```
 
-Replace the `SUPABASE_URL` and `SUPABASE_SERVICE_KEY` with the Supabase URL and Anon Key
+Replace the `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `SERVER_URL`, and `SERVER_PORT` with the appropriate values.
 
 ### Public Read Only Database
 
