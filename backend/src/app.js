@@ -26,7 +26,9 @@ app.use(json()); // Parse incoming JSON requests
 
 // Use the routes
 app.use(routes);
-
+app.get('/', (req, res) => {
+  res.send('Welcome to the Vehicle Dashboard Backend!');
+});
 // Create HTTP server and WebSocket server
 const server = createServer(app);
 const wss = new WebSocketServer({ server });
@@ -38,7 +40,7 @@ attachWebSocketServer(wss);
 const PORT = process.env.SERVER_PORT || 3001;
 const vehicleId = 1;
 server.listen(PORT, () => {
-  const serverUrl = process.env.SERVER_URL || `http://localhost`;
+  const serverUrl = process.env.SERVER_URL;
   console.log(`Backend server is running on ${serverUrl}:${PORT}`);
   run(vehicleId);
 });
