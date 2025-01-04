@@ -10,7 +10,7 @@
 import express, { json } from 'express';
 import cors from 'cors';
 import { createServer } from 'http';
-import { WebSocketServer } from 'ws';
+import { WebSocketServer, WebSocket } from 'ws'; // Import WebSocket
 import { attachWebSocketServer } from './controllers/websocketController.js';
 import routes from './routes/routes.js';
 import { run } from './simulation.js';
@@ -20,15 +20,35 @@ dotenv.config();
 
 const app = express();
 
+// Set EJS as the templating engine
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
 // Middleware
 app.use(cors()); // Allow cross-origin requests
 app.use(json()); // Parse incoming JSON requests
 
+// Capture console.log output
+let consoleOutput = [];
+const originalConsoleLog = console.log;
+console.log = function (...args) {
+  const message = args.join(' ');
+  consoleOutput.push(message);
+  originalConsoleLog.apply(console, args);
+  // Broadcast the message to all connected WebSocket clients
+  wss.clients.forEach(client => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(message);
+    }
+  });
+};
+
 // Use the routes
 app.use(routes);
 app.get('/', (req, res) => {
-  res.send('Welcome to the Vehicle Dashboard Backend!');
+  res.render('index', { message: 'Welcome to the Vehicle Dashboard Backend!', consoleOutput });
 });
+
 // Create HTTP server and WebSocket server
 const server = createServer(app);
 const wss = new WebSocketServer({ server });

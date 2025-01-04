@@ -5,7 +5,10 @@ A real-time vehicle dashboard built with React, Express, and PostgreSQL. The das
 The database has values which are used to render on the frontend.
 
 # Static Website Link:
-[Vehicle Dashboard (https://vmsaif.github.io/vehicle-dashboard/)](https://vmsaif.github.io/vehicle-dashboard/)
+[Vehicle Dashboard (https://saifmahmud.dev/vehicle-dashboard-static-frontend/)](https://saifmahmud.dev/vehicle-dashboard-static-frontend/)
+
+# Backend Console is rendered on the browser:
+[Vehicle Dashboard Backend Console (https://vehicle-dashboard.mahmudsaif-aws.us/)](https://vehicle-dashboard.mahmudsaif-aws.us/)
 
 ## Tech Stack
 
@@ -143,8 +146,6 @@ Replace the `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `SERVER_URL`, and `SERVER_PO
 
 ### Public Read Only Database
 
-
-
 #### Endpoint:
 - battery : https://kgvlvrvhrjgjtippbfxs.supabase.co/rest/v1/battery
 - gear: https://kgvlvrvhrjgjtippbfxs.supabase.co/rest/v1/gear
@@ -158,16 +159,43 @@ Anon Public Key: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsI
 A simple command to fetch the data from the database:
 
 ```bash
-curl "https://kgvlvrvhrjgjtippbfxs.supabase.co/rest/v1/battery" \
+curl -X GET "https://kgvlvrvhrjgjtippbfxs.supabase.co/rest/v1/battery?vehicle_id=eq.1" \
   -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtndmx2cnZocmpnanRpcHBiZnhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU1ODE0NDcsImV4cCI6MjA1MTE1NzQ0N30.uX1R6dBNjMQfBOdD0NhL3BM86uDYVROkwK3EkA6PvB8" \
-  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtndmx2cnZocmpnanRpcHBiZnhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU1ODE0NDcsImV4cCI6MjA1MTE1NzQ0N30.uX1R6dBNjMQfBOdD0NhL3BM86uDYVROkwK3EkA6PvB8"
+  -H "Content-Type: application/json"
 ```
+
+These databases are read-only, they will `silently` fail if you try to update the data.
+
+Simple test to update the data:
+
+```bash
+curl -X PATCH "https://kgvlvrvhrjgjtippbfxs.supabase.co/rest/v1/battery?id=eq.1" \
+  -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtndmx2cnZocmpnanRpcHBiZnhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU1ODE0NDcsImV4cCI6MjA1MTE1NzQ0N30.uX1R6dBNjMQfBOdD0NhL3BM86uDYVROkwK3EkA6PvB8" \
+  -H "Content-Type: application/json" \
+  -d '{"capacity": 12.5, "percentage": 10.5, "temperature": 25.5}'
+```
+
+This will fail silently. You can use the get command again to verify the data is not updated.
 
 
 ### Install tailwindcss by following the instructions [here](https://tailwindcss.com/docs/guides/vite)
 
 ### Usage
 Please refer to the [usage documentation](docs/usage.md) for detailed instructions on how to use the dashboard.
+
+### Screenshots
+
+#### App Overview
+![Initial State](docs/images/initial_state.png)
+
+#### Motor ON
+![Motor ON](docs/images/motor_on.png)
+
+#### High RPM
+![High RPM](docs/images/high_rpm.png)
+
+#### Charging ON
+![Charging ON](docs/images/charging_on.png)
 
 ## Assets and Resources
 - Extracted Icons from the provided PDF.

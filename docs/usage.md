@@ -4,7 +4,7 @@ The app starts with the current values from the database. Let's start with parki
 
 ### Parking Brake
 ```bash
-curl -X POST http://localhost:3001/api/indicator-status \
+curl -X POST https://vehicle-dashboard.mahmudsaif-aws.us/api/indicator-status \
   -H "Content-Type: application/json" \
   -d '{
     "vehicle_id": 1,
@@ -22,7 +22,7 @@ The check engine is automated to turn on when the motor ran for more than 20 sec
 After the check engine is turned on, we can turn it off by sending a POST request to the API endpoint. Before that, the motor speed settings bar has to be `reduced`.
 
 ```bash
-curl -X POST http://localhost:3001/api/indicator-status \
+curl -X POST https://vehicle-dashboard.mahmudsaif-aws.us/api/indicator-status \
   -H "Content-Type: application/json" \
   -d '{
     "vehicle_id": 1,
@@ -42,7 +42,7 @@ Whenever the charge is below 20% (fetched from DB), the low battery indicator wi
 The gear ratio (fetched from DB) is related with the motor RPM (Row 3, 4th tile icon) and the gauge RPM (Wheel RPM). If the ratio is 1/1, the gauge RPM will be the same as the motor RPM. If the ratio is 1/2, the gauge RPM will be half of the motor RPM. The gear ratio can be changed by sending a POST request to the API endpoint.
 
 ```bash
-curl -X POST http://localhost:3001/api/gear-ratio \
+curl -X POST https://vehicle-dashboard.mahmudsaif-aws.us/api/gear-ratio \
   -H "Content-Type: application/json" \
   -d '{
     "vehicle_id": 1,
@@ -57,7 +57,7 @@ The battery is automated to charge when the charging status is `true`. Whenever 
 We can change the charging status by sending a POST request to the API endpoint.
 
 ```bash
-curl -X POST http://localhost:3001/api/indicator-status \
+curl -X POST https://vehicle-dashboard.mahmudsaif-aws.us/api/indicator-status \
   -H "Content-Type: application/json" \
   -d '{
     "vehicle_id": 1,
@@ -92,7 +92,7 @@ The motor speed settings is the only input field on the frontend, that sends its
   We can start the charging by sending a POST request to the API endpoint.
 
   ```bash
-  curl -X POST http://localhost:3001/api/indicator-status \
+  curl -X POST https://vehicle-dashboard.mahmudsaif-aws.us/api/indicator-status \
     -H "Content-Type: application/json" \
     -d '{
       "vehicle_id": 1,
@@ -108,7 +108,7 @@ The motor speed settings is the only input field on the frontend, that sends its
   We even can change the battery Capacity by sending a POST request to the API endpoint. Initially, the battery capacity is set to 1000
 
   ```bash
-  curl -X POST http://localhost:3001/api/battery-capacity \
+  curl -X POST https://vehicle-dashboard.mahmudsaif-aws.us/api/battery-capacity \
     -H "Content-Type: application/json" \
     -d '{
       "vehicle_id": 1,
@@ -122,7 +122,7 @@ The motor speed settings is the only input field on the frontend, that sends its
   We also can increase the charge power by sending a POST request to the API endpoint. Initially, the charge power is set to 90
 
   ```bash
-  curl -X POST http://localhost:3001/api/charge-input \
+  curl -X POST https://vehicle-dashboard.mahmudsaif-aws.us/api/charge-input \
     -H "Content-Type: application/json" \
     -d '{
       "vehicle_id": 1,
@@ -131,6 +131,71 @@ The motor speed settings is the only input field on the frontend, that sends its
   ```
 
   This charge_input value will be reflected as negative on the Power Consumption Gauge.
+
+  ### Epiroc Challenge Requirement Checklist:
+
+- **Read only Database**
+  - [x] The database is read-only.
+  - [x] Only someone with access to the backend can modify the database.
+  - [x] The frontend can only change the charging indicator and the motor speed setting. Which is done by sending a POST request to the API endpoint of the backend.
+
+- **Status Indicator Lights**
+  - [x] **Parking Brake**
+    - Should be active when the parking brake is engaged.
+    - (When the Motor Speed Setting is set to 0, the backend will automatically engage the parking brake.)
+  - [x] **Check Engine**
+    - Should be active when the engine needs service.
+    - (When the Motor RPM is above 600 for more than 20 seconds, the backend will automatically turn on the check engine light.)
+  - [x] **Motor**
+    - Should be active when the motor is operating above a certain RPM.
+  - [x] **Battery Low**
+    - Should be active when the battery percentage dips below a certain level.
+    - (The battery low indicator will turn on when the battery percentage is below 20%.)
+  - [x] **Read from Database**
+    - Parking brake and check engine state should be read from the database but should not be modifiable from this dashboard.
+
+- **Power Gauge**
+  - [x] Should display the current power consumption or input.
+    - (it shows the power consumption)
+  - [x] The needle should point to the position corresponding to the power level.
+  - [x] The needle should spin with fluid animation when power levels change (not snap instantaneously to the correct value).
+  - [x] Power levels should be positive when power is being consumed from the battery through the motor’s operation. The faster the motor runs, the higher the power consumption should be.
+    - (The power consumption increases as the motor speed increases.)
+  - [x] Power levels should be negative when the battery is charging.
+
+- **Motor RPM Gauge**
+  - [x] Should display the current RPM of the motor. (The gear ratio should be taken into account when displaying the RPM on the gauge. For a 1:1 gear ratio, the RPM should be the same as the motor RPM. For a 1:2 gear ratio, the RPM should be half of the motor RPM, etc.)
+  - [x] The needle should point to the position corresponding to the RPM.
+  - [x] The needle should spin with fluid animation when RPM changes.
+  - [x] When the motor is off, RPM should be 0, and RPM should increase as users increase the speed using the Motor Speed Setting slider.
+  - [x] When the battery is charging, the motor RPM should be 0.
+    - (The motor stops, as well as the Park Brake indicator is turned on when the battery is charging.)
+
+- **Gear Ratio**
+  - [x] Should be read from the database and should not be modifiable from this dashboard.
+    - The only way to change the gear ratio is by sending a POST request to the API endpoint.
+
+- **Battery Percentage**
+  - [x] Should be read from the database and updated in the database through backend emulation.
+  - [x] Should decrease over time when the motor is in use.
+  - [x] Should increase over time when the battery is charging.
+
+- **Battery Temperature**
+  - [x] Should be read from the database and updated in the database through backend emulation.
+  - [x] Battery temperature should increase and decrease as the motor speed increases and decreases.
+    - (There is a cilling value for the battery temperature, which is calculated based on the current motor RPM, and a minimum temperature value when the vehicle is not moving and the battery is not charging.)
+    - (The battery temperature decreases when the motor is off and the battery is not charging upto the minimum temperature value.)
+    - When the battery is at 100% charge, the battery temperature will decrease to the minimum value, even if the battery charging indicator is on. (Assuming that there is a charging cut-off at 100% charge.)
+
+
+- **Motor Speed Setting Slider**
+  - [x] Should change the RPM of the motor, with RPM being set to 0 when the slider is in the OFF position, and with RPM increasing as the speed setting increases.
+    - (Also will trigger the Park Brake indicator when the speed setting is set to 0.)
+
+- **Charging Button**
+  - [x] Should update the charging state and indicate to the user whether the battery is charging.
+  - [x] When charging, the motor should be disabled, and the battery percentage should increase over time.
+    - (The temperature will increase when the battery is charging upto 100% charge. Then it will slowly decrease to the minimum temperature value even if the battery charging indicator is on. Minimum temperature value is set to 20 degrees.)
 
   ### For Detailed API Documentation
   Please refer to the [API Documentation](api_documentation.md) for detailed instructions on how to use the API endpoints.

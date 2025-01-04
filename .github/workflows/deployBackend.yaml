@@ -1,4 +1,4 @@
-name: Deploy Backend to EC2
+name: Deploy Backend
 
 on:
   push:
@@ -27,6 +27,8 @@ jobs:
       - name: Restart Node.js application
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_INSTANCE_ADDRESS }} << 'EOF'
+          source ~/.profile
+          source ~/.bashrc
           cd ~/app/backend
           npm install
           pm2 restart "Vehicle Dashboard Backend App"
