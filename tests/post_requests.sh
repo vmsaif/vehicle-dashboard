@@ -7,6 +7,7 @@ set -e
 #
 # @description: This script sends a POST request to update the indicator status.
 
+API_SERVER="https://vehicle-dashboard.mahmudsaif-aws.us"
 
 # Check if the correct number of arguments is provided
 if [ "$#" -lt 2 ]; then
@@ -23,7 +24,7 @@ VALUE=$3
 if [ "$TYPE" == "speed_bar" ]; then
   # Send the POST request using curl
   echo "Sending POST request to update speed bar..."
-  curl -X POST http://3.131.101.58:3001/api/motor-speed-bar \
+  curl -X POST $API_SERVER/api/motor-speed-bar \
     -H "Content-Type: application/json" \
     -d "{
       \"vehicle_id\": 1,
@@ -33,7 +34,7 @@ fi
 
 if [ "$TYPE" == "power_consumption" ]; then
   # Send the POST request using curl
-  curl -X POST http://3.131.101.58:3001/api/power-consumption \
+  curl -X POST $API_SERVER/api/power-consumption \
     -H "Content-Type: application/json" \
     -d "{
       \"vehicle_id\": 1,
@@ -43,7 +44,7 @@ fi
 
 if [ "$TYPE" == "charge_input" ]; then
   # Send the POST request using curl
-  curl -X POST http://3.131.101.58:3001/api/charge-input \
+  curl -X POST $API_SERVER/api/charge-input \
     -H "Content-Type: application/json" \
     -d "{
       \"vehicle_id\": 1,
@@ -53,7 +54,7 @@ fi
 
 if [ "$TYPE" == "temperature" ]; then
   # Send the POST request using curl
-  curl -X POST http://3.131.101.58:3001/api/battery-temperature \
+  curl -X POST $API_SERVER/api/battery-temperature \
     -H "Content-Type: application/json" \
     -d "{
       \"vehicle_id\": 1,
@@ -68,7 +69,7 @@ if [ "$TYPE" == "gear_ratio" ]; then
     echo "Example: $0 gear_ratio 1 2"
     exit 1
   fi
-  curl -X POST http://3.131.101.58:3001/api/gear-ratio \
+  curl -X POST $API_SERVER/api/gear-ratio \
     -H "Content-Type: application/json" \
     -d "{
       \"vehicle_id\": 1,
@@ -79,7 +80,7 @@ fi
 
 if [ "$TYPE" == "check_engine" ]; then
   # Send the POST request using curl
-  curl -X POST http://3.131.101.58:3001/api/indicator-status \
+  curl -X POST $API_SERVER/api/indicator-status \
     -H "Content-Type: application/json" \
     -d "{
       \"vehicle_id\": 1,
@@ -93,7 +94,7 @@ fi
 if [ "$TYPE" == "indicator" ]; then
   # Send the POST request using curl
   echo "Sending POST request to update indicator status..."
-  curl -X POST http://3.131.101.58:3001/api/indicator-status \
+  curl -X POST $API_SERVER/api/indicator-status \
     -H "Content-Type: application/json" \
     -d "{
       \"vehicle_id\": 1,
@@ -109,7 +110,7 @@ if [ "$TYPE" == "rpm" ]; then
   fi
   # Send the POST request using curl
   echo "Sending POST request to update motor RPM..."
-  curl -X POST http://3.131.101.58:3001/api/motor-rpm \
+  curl -X POST $API_SERVER/api/motor-rpm \
     -H "Content-Type: application/json" \
     -d "{
       \"vehicle_id\": 1,
@@ -130,7 +131,7 @@ if [ "$TYPE" == "motor" ]; then
     exit 1
   fi
   # Send the POST request using curl
-  curl -X POST http://3.131.101.58:3001/api/motor-speed-rpm \
+  curl -X POST $API_SERVER/api/motor-speed-rpm \
     -H "Content-Type: application/json" \
     -d "{
       \"vehicle_id\": 1,
@@ -145,7 +146,7 @@ if [ "$TYPE" == "battery" ]; then
     exit 1
   fi
   # Send the POST request using curl
-  curl -X POST http://3.131.101.58:3001/api/battery \
+  curl -X POST $API_SERVER/api/battery \
     -H "Content-Type: application/json" \
     -d "{
       \"vehicle_id\": 1,

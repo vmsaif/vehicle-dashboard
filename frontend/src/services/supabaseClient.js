@@ -17,11 +17,8 @@ const vite_supabaseKey = import.meta.env.VITE_SUPABASE_SERVICE_KEY;
 
 let supabase;
 
-try {
+if (!supabase) {
   supabase = createClient(vite_supabaseUrl, vite_supabaseKey);
-  console.log('Supabase client created successfully');
-} catch (error) {
-  console.error('Error creating Supabase client:', error);
 }
 
 export { supabase };
