@@ -12,6 +12,7 @@
 import React from "react";
 import { GaugeComponent } from 'react-gauge-component';
 import { useSupabaseService } from '../../hooks/useSupabaseService.js';
+import '../../styles/Gauge.css';
 
 const Gauge = ({ vehicleId, units, majorTicks, minValue, maxValue }) => {
   let value = minValue;
@@ -25,16 +26,18 @@ const Gauge = ({ vehicleId, units, majorTicks, minValue, maxValue }) => {
 
 
   let minValueDigitCount = Math.abs(minValue).toString().length;
-  let margin_left = 0.13;
-  let margin_right = 0.14;
+  let margin_left = 0.22;
+  let margin_right = 0.22;
 
   if (minValueDigitCount < 3) {
-    margin_left = 0.11;
-    margin_right = 0.09;
+    margin_left = 0.205;
+    margin_right = 0.205;
   }
 
   return (
-    <div>
+    <div className="gauge-wrapper">
+      {/* Add the arc overlay */}
+      <div className="gauge-overlay"></div>
       <GaugeComponent
         type="radial"
         value={value} // Value
@@ -42,16 +45,13 @@ const Gauge = ({ vehicleId, units, majorTicks, minValue, maxValue }) => {
         maxValue={maxValue} // Maximum value
         marginInPercent={{
           top: 0.06,
-          bottom: 0.00,
+          bottom: -0.04,
           left: margin_left,
           right: margin_right
         }}
         style={{
-          width: "200px", // Width of the gauge
-          height: "195px", // Height of the gauge
-          border: "3px solid #1A1A1A",
-          borderRadius: "50%", // Make the border circular
-          boxShadow: "0 0 0 4px #787878, 0 0 0 7px #1A1A1A",
+          width: 250,
+          height: 250,
         }}
 
         arc={{
@@ -63,7 +63,7 @@ const Gauge = ({ vehicleId, units, majorTicks, minValue, maxValue }) => {
 
         pointer={{
           type: "needle", // Needle type
-          color: "#676767", // Needle color
+          color: "#FFFFFF", // Needle color
           animate: true, // Enable animation
           width: 17, // Width of the needle
           length: 0.95, // Length of the needle relative to the radius
@@ -86,14 +86,15 @@ const Gauge = ({ vehicleId, units, majorTicks, minValue, maxValue }) => {
             },
             defaultTickValueConfig: {
               style: {
-                fill: "#808080",
-              }
+                fill: "#D3D3D3",
+                fontWeight: "semi-bold",
+              },
+
             }
           },
-
-
         }}
       />
+
     </div>
   );
 };
