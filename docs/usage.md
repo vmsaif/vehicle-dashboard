@@ -170,6 +170,11 @@ This will fail silently. You can use the get command again to verify the data is
 
 ### Epiroc Challenge Requirements Checklist:
 
+- **Extra Features**
+  - The backend console is rendered on the browser. The user can see real-time updates of the server logs.
+  - Added "Stop battery temperature increase" when the battery is at 100% charge. The battery temperature will decrease to the minimum value even if the battery charging indicator is on. (Assuming that there is a charging cut-off at 100% charge.)
+  - Added CI/CD pipeline for the backend and frontend. The backend is deployed on Amazon AWS EC2 instance and the frontend is deployed on GitHub Pages automatically when the code is pushed to the main branch. They are deployed using GitHub Actions.
+
 - **Read only Database**
   - [x] The database is read-only.
   - [x] Only someone with access to the backend can modify the database.
@@ -233,9 +238,7 @@ This will fail silently. You can use the get command again to verify the data is
   - [x] When charging, the motor should be disabled, and the battery percentage should increase over time.
     - (The temperature will increase when the battery is charging upto 100% charge. Then it will slowly decrease to the minimum temperature value even if the battery charging indicator is on. Minimum temperature value is set to 20 degrees.)
 
-- **Extra Features**
-  - The backend console is rendered on the browser. The user can see real-time updates of the server logs.
-  - Added "Stop battery temperature increase" when the battery is at 100% charge. The battery temperature will decrease to the minimum value even if the battery charging indicator is on. (Assuming that there is a charging cut-off at 100% charge.)
+
 
   ### For Detailed API Documentation
   Please refer to the [API Documentation](api_documentation.md) for detailed instructions on how to use the API endpoints.
