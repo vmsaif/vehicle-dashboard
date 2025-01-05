@@ -1,8 +1,7 @@
 # API Documentation
 
 ## Overview
-This document provides API documentation for `dataController.js` of the `vehicle-dashboard` project. The controller handles data interactions with the database through the Supabase client.
-
+The API is used to fetch and update vehicle data in the database. The frontend fetches data from the database using API endpoints managed by the backend. The backend updates the database when the user interacts with the vehicle settings. The database sends real-time updates to the frontend.
 
 ## API Methods
 
@@ -130,6 +129,3 @@ This document provides API documentation for `dataController.js` of the `vehicle
 
 ## Error Handling
 Errors are handled within each API method and will return an appropriate HTTP status code along with a JSON-formatted error message.
-```
-
-This enhanced documentation includes JSON examples for each PUT request, which should help developers understand the expected input for each operation clearly.

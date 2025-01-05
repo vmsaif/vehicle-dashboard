@@ -1,5 +1,8 @@
 # Vehicle Dashboard
 
+[![Hits](https://hits.sh/github.com/vmsaif/vehicle-dashboard.svg?label=Visits&color=100b75)](https://hits.sh/github.com/vmsaif/vehicle-dashboard/)
+
+
 A real-time vehicle dashboard built with React, Express, and PostgreSQL. The dashboard displays telemetry data from a database and allows users to interact with the vehicle settings through API endpoints.
 
 The database has values which are used to render on the frontend.
@@ -117,7 +120,7 @@ cd vehicle-dashboard
 
 ### Install dependencies
 
-#### Frontend
+#### FRONTEND
 ```bash
 cd frontend
 npm install
@@ -130,7 +133,12 @@ echo "VITE_BACKEND_URL=http://localhost:3001 \nVITE_SUPABASE_URL= \nVITE_SUPABAS
 ```
 Replace the `http://localhost:3001` with the backend URL
 
-#### Backend
+#### Run the frontend
+```bash
+npm run dev
+```
+
+#### BACKEND
 
 ```bash
 cd ../backend
@@ -144,41 +152,10 @@ echo -e "SERVER_URL= \nSERVER_PORT= \nSUPABASE_URL= \nSUPABASE_SERVICE_KEY= " > 
 
 Replace the `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `SERVER_URL`, and `SERVER_PORT` with the appropriate values.
 
-### Public Read Only Database
-
-#### Endpoint:
-- battery : https://kgvlvrvhrjgjtippbfxs.supabase.co/rest/v1/battery
-- gear: https://kgvlvrvhrjgjtippbfxs.supabase.co/rest/v1/gear
-- indicators: https://kgvlvrvhrjgjtippbfxs.supabase.co/rest/v1/indicators
-- motor: https://kgvlvrvhrjgjtippbfxs.supabase.co/rest/v1/motor
-- power: https://kgvlvrvhrjgjtippbfxs.supabase.co/rest/v1/power
-- vehicle: https://kgvlvrvhrjgjtippbfxs.supabase.co/rest/v1/vehicle
-
-Anon Public Key: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtndmx2cnZocmpnanRpcHBiZnhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU1ODE0NDcsImV4cCI6MjA1MTE1NzQ0N30.uX1R6dBNjMQfBOdD0NhL3BM86uDYVROkwK3EkA6PvB8`
-
-A simple command to fetch the data from the database:
-
+#### Run the backend
 ```bash
-curl -X GET "https://kgvlvrvhrjgjtippbfxs.supabase.co/rest/v1/battery?vehicle_id=eq.1" \
-  -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtndmx2cnZocmpnanRpcHBiZnhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU1ODE0NDcsImV4cCI6MjA1MTE1NzQ0N30.uX1R6dBNjMQfBOdD0NhL3BM86uDYVROkwK3EkA6PvB8" \
-  -H "Content-Type: application/json"
+npm start
 ```
-
-These databases are read-only, they will `silently` fail if you try to update the data.
-
-Simple test to update the data:
-
-```bash
-curl -X PATCH "https://kgvlvrvhrjgjtippbfxs.supabase.co/rest/v1/battery?id=eq.1" \
-  -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtndmx2cnZocmpnanRpcHBiZnhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU1ODE0NDcsImV4cCI6MjA1MTE1NzQ0N30.uX1R6dBNjMQfBOdD0NhL3BM86uDYVROkwK3EkA6PvB8" \
-  -H "Content-Type: application/json" \
-  -d '{"capacity": 12.5, "percentage": 10.5, "temperature": 25.5}'
-```
-
-This will fail silently. You can use the get command again to verify the data is not updated.
-
-
-### Install tailwindcss by following the instructions [here](https://tailwindcss.com/docs/guides/vite)
 
 ### Usage
 Please refer to the [usage documentation](docs/usage.md) for detailed instructions on how to use the dashboard.
