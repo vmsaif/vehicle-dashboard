@@ -2,6 +2,9 @@
 
 The app starts with the current values from the database. Let's start with parking_brake. We can change the value of parking_brake by sending a POST request to the API endpoint. For all the POST requests, the vehicle_id is set to 1. I have created the database so that multiple vehicles can be added in the future.
 
+# Backend Console is rendered on the browser:
+[Vehicle Dashboard Backend Console (https://vehicle-dashboard.mahmudsaif-aws.us/)](https://vehicle-dashboard.mahmudsaif-aws.us/)
+
 ### - Parking Brake
 ```bash
 curl -X POST https://vehicle-dashboard.mahmudsaif-aws.us/api/indicator-status \
@@ -229,6 +232,10 @@ This will fail silently. You can use the get command again to verify the data is
   - [x] Should update the charging state and indicate to the user whether the battery is charging.
   - [x] When charging, the motor should be disabled, and the battery percentage should increase over time.
     - (The temperature will increase when the battery is charging upto 100% charge. Then it will slowly decrease to the minimum temperature value even if the battery charging indicator is on. Minimum temperature value is set to 20 degrees.)
+
+- **Extra Features**
+  - The backend console is rendered on the browser. The user can see real-time updates of the server logs.
+  - Added "Stop battery temperature increase" when the battery is at 100% charge. The battery temperature will decrease to the minimum value even if the battery charging indicator is on. (Assuming that there is a charging cut-off at 100% charge.)
 
   ### For Detailed API Documentation
   Please refer to the [API Documentation](api_documentation.md) for detailed instructions on how to use the API endpoints.
