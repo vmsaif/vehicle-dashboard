@@ -18,12 +18,12 @@ The database has values which are used to render on the frontend.
 | **Layer**             | **Technology**                 | **Purpose**                                  |
 |-----------------------|--------------------------------|----------------------------------------------|
 | **Frontend**          | React with Vite                | Interactive UI for the dashboard             |
-| **Styling**           | Tailwind CSS                   | Responsive, modern design                    |
+| **Styling**           | Tailwind CSS                   | Modern design                                |
 | **Backend**           | Express.js + WebSocket         | API and WebSocket real-time communication    |
 | **Database**          | PostgreSQL With Supabase       | Relational database for telemetry data       |
 | **Frontend Hosting**  | GitHub Pages                   | Host the React app                           |
 | **Backend Hosting**   | Amazon AWS EC2 instance        | Host WebSocket, express.js backend           |
-| **Database Hosting**  | Supabase                       | Managed PostgreSQL instance                  |
+| **Database Hosting**  | Supabase                       | PostgreSQL instance                          |
 | **Version Control**   | GitHub                         | Code repository                              |
 | **Deployment CI/CD**  | GitHub Actions                 | Automate build and deployment workflows      |
 
