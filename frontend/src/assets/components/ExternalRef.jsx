@@ -22,7 +22,7 @@ function ExternalRef() {
             <FaGithub />
             GitHub Repository
           </a>
-          <a href="https://mahmudsaif.dev" target="_blank" rel="noopener noreferrer" className={`${textColors} flex items-center gap-2`}>
+          <a href="https://saifmahmud.dev" target="_blank" rel="noopener noreferrer" className={`${textColors} flex items-center gap-2`}>
             <FaGlobe />
             Portfolio Website
           </a>
