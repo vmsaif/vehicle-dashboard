@@ -1,6 +1,6 @@
 # Usage
 
-The app starts with the current values from the database. Let's start with parking_brake. We can change the value of parking_brake by sending a POST request to the API endpoint. For all the POST requests, the vehicle_id is set to 1. I have created the database so that multiple vehicles can be added in the future.
+The app starts with the current values from the database. For all the POST requests, the vehicle_id is set to 1. I have created the database so that multiple vehicles can be added in the future.
 
 # Backend Console is rendered on the browser:
 [Vehicle Dashboard Backend Console (https://vehicle-dashboard.mahmudsaif-aws.us/)](https://vehicle-dashboard.mahmudsaif-aws.us/)
@@ -20,6 +20,8 @@ curl -X POST https://vehicle-dashboard.mahmudsaif-aws.us/api/indicator-status \
     "indicator": false
   }'
 ```
+
+Change the indicator `true` or `false` to see the changes in the UI.
 
 ### - Motor Status
 
