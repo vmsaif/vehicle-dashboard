@@ -12,6 +12,8 @@
 
 import './styles/App.css'
 import Dashboard from './assets/components/Dashboard'
+import ExternalRef from './assets/components/ExternalRef'
+import Instructions from './assets/components/Instructions'
 
 function App() {
 
@@ -20,6 +22,8 @@ function App() {
     <div>
       <Dashboard />
     </div>
+      <ExternalRef />
+      <Instructions />
     </>
   )
 }

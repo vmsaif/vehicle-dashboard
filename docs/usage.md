@@ -5,19 +5,6 @@ The app starts with the current values from the database. Let's start with parki
 # Backend Console is rendered on the browser:
 [Vehicle Dashboard Backend Console (https://vehicle-dashboard.mahmudsaif-aws.us/)](https://vehicle-dashboard.mahmudsaif-aws.us/)
 
-### - Parking Brake
-```bash
-curl -X POST https://vehicle-dashboard.mahmudsaif-aws.us/api/indicator-status \
-  -H "Content-Type: application/json" \
-  -d '{
-    "vehicle_id": 1,
-    "type": "parking_brake",
-    "indicator": false
-  }'
-```
-
-Change the indicator `true` or `false` to see the changes in the UI.
-
 ### - Check Engine
 
 The check engine is automated to turn on when the motor ran for more than 20 seconds with rpm (fetched from DB) is above 600.
